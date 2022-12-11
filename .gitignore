@@ -1,0 +1,13 @@
+# dependencies
+node_modules
+frontend/node_modules
+frontend/.gitignore
+
+#files
+updateData.js
+newOrderCheck.js
+updateImportData.js
+updateDataSeeder.js
+
+# misc
+.env
