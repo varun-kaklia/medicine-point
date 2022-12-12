@@ -19,6 +19,7 @@ const SellerOrderCreation = () => {
   const medicineSearch = useRef(null)
   const [quantity, setQuantity] = useState(1)
   const [selectedMedicine, setSelectedMedicine] = useState('')
+  const [getMedicine, setGetMedicine] = useState('')
   const dispatch = useDispatch()
   const sellerState = useSelector((state) => state.loginSellerReducer)
   const { currentSeller } = sellerState
@@ -26,6 +27,15 @@ const SellerOrderCreation = () => {
   const { loading,medicines } = medicineState
   const cartState = useSelector((state) => state.cartReducer);
   const cartItems = cartState.cartItems;
+
+  const productSearchState = useSelector((state) => state.getSearchMedicineReducer);
+  const { searchMedicines } = productSearchState;
+
+  const filterMedicine = searchMedicines && searchMedicines.filter((searchThisMedicine) => {
+    return (
+      getMedicine === "" ? searchThisMedicine : searchThisMedicine && searchThisMedicine?.name.toLowerCase().includes(getMedicine)
+    )
+  })
 
   const newValue = cartItems.reduce((x, item) => x + item.price, 0);
   const subTotal = Math.trunc(newValue)
@@ -43,7 +53,7 @@ const SellerOrderCreation = () => {
     dispatch(addToCart(selectedMedicine, quantity));
     setQuantity(1)
     medicineSearch.current.value=""
-    searchMedicine('')
+    setSearchMedicine('')
   }
 
   useLayoutEffect(() => {
@@ -229,45 +239,28 @@ const SellerOrderCreation = () => {
               </div>
             </div>
             <div className='md:grid mt-4 grid-cols-1 gap-4'>
-                <div className='shadow rounded bg-white pt-6 pb-8 px-4'>
-                    <div className=''>
-                        <input type="text" className='rounded w-full' ref={medicineSearch} onChange={(e)=>setSearchMedicine(e.target.value.toLowerCase())} placeholder='Enter Medicine Name' />
-                    </div>
-              <div className='py-2 shadow rounded px-2 mt-4 md:h-60 h-40 overflow-y-scroll'>
-                {medicines && medicines.filter((searchThisMedicine) => {
-                  return (
-                    searchMedicine === "" ? searchThisMedicine : searchThisMedicine && searchThisMedicine?.name.toLowerCase().includes(searchMedicine)
-                  )
-                }).map((medicine) => {
-                  return (
-                    <div className="flex items-center py-2 px-1 justify-between " key={medicine._id}>
-                      <div className='w-full'>
-                        <div className='flex justify-between'>
-                        <div>
-                        <button
-                          className="text-gray-600 hover:text-primary transition cursor-pointer"
-                            >
-                              <Link to={`/products/${medicine._id}`} state={{medicine:medicine}}>
-                          {medicine && medicine?.name}
-                              </Link>
-                        </button>
-                          </div>
-                          <p>{medicine && medicine?.stock > 1 ? <p className='text-green-700'>{medicine?.stock}</p>:<p className='text-red-700'>0</p>}</p>
-                        </div>
-                        <div className='flex justify-between'>
-                          <p>{medicine && medicine?.company}</p>
-                          <p>{medicine && medicine?.Salt}</p>
-                        </div>
-                      </div>
-                      <button className='pl-2'>
-                        <div className='flex justify-center'>
-                          <button className='text-gray-50 bg-primary px-1 py-1 border border-primary rounded hover:border-secondary hover:bg-transparent hover:text-primary transition' onClick={() =>{
+              <div className='shadow rounded bg-white pt-6 pb-4 px-4'>
+                <div className=''>
+                  <input type="text" className='rounded w-full' ref={medicineSearch} onChange={(e)=>setGetMedicine(e.target.value.toLowerCase())} placeholder='Enter Medicine Name' />
+                </div>
+              <div className='py-2 shadow rounded px-2 mt-4 overflow-y-scroll'>
+              {getMedicine === "" || null ? null : (
+                  <div className="absolute bg-gray-100 mt-1 w-max p-2 shadow-lg rounded-bl rounded-br max-h-36 overflow-y-auto ">
+                    {filterMedicine &&
+                      filterMedicine
+                        .map((medicine, index) => {
+                          return (
+                            <div className="p-2" key={index}>
+                            <button  onClick={() =>{
                             setSelectedMedicine(medicine)
-                            setShowModal(true)}}>Add</button></div>
-                      </button>
-                      </div>
-                  )
-                })}
+                            setShowModal(true)}}>
+                              {medicine.name}
+                            </button>
+                            </div>
+                          );
+                        })}
+                  </div>
+                )}
                     </div>
                         <h3 className='mt-4 px-2 font-semibold text-lg'>Selected Items:</h3>
                          {cartItems && cartItems.map((item, index) => (

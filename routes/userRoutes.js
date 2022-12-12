@@ -135,7 +135,7 @@ router.post('/updatepoint', async (req, res) => {
 
 router.post('/updateUser',async (req,res)=>{
   const {rid,email1} = req.body
-  console.log("User",req.body)
+  // console.log("User",req.body)
   if(req.body.rid){
     try {
       const user = await User.find({ rid });
@@ -223,7 +223,7 @@ router.post("/login", async (req, res) => {
         res.status(200).send(currentUser);
       } else {
         res.status(400).json({
-          message: "Login Failed",
+          message: "Login Failed, Email Or Password Wrong",
         });
       }
     } catch (error) {
@@ -235,7 +235,7 @@ router.post("/login", async (req, res) => {
   } else {
     try {
       const user = await User.find({ name, password });
-      console.log("User Details",user)
+      // console.log("User Details",user)
       if (user.length > 0) {
         const currentUser = {
           name: user[0].name,
@@ -254,7 +254,7 @@ router.post("/login", async (req, res) => {
         res.status(200).send(currentUser);
       } else {
         res.status(400).json({
-          message: "Login Failed",
+          message: "Login Failed, Name Or Password Wrong",
         });
       }
     } catch (error) {
@@ -290,7 +290,7 @@ router.post("/getuserbyid", async (req, res) => {
   const rid = req.body.rid;
   try {
     const user = await User.findOne({ rid: rid });
-    console.log("User", user)
+    // console.log("User", user)
     res.send(user);
   } catch (error) {
     res.json({ message: error });

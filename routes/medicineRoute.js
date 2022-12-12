@@ -56,7 +56,7 @@ router.get('/search',async(req,res)=>{
 //get all medicines || @get request
 router.get("/getAllMedicine", async (req, res) => {
   try {
-    console.log("Requested Query",req.query)
+    // console.log("Requested Query",req.query)
     const page = parseInt(req.query.page) || 1;
     const limitValue = parseInt(req.query.limit) || 48;
     const skipValue = (page-1) * limitValue;
@@ -64,7 +64,9 @@ router.get("/getAllMedicine", async (req, res) => {
     const pages = Math.ceil(total/limitValue)
     const brand = req.query.brand || ""
     const salt = req.query.salt || ""
-    const medicines = await medicineModel.find({company:{$regex:brand,$options:'i'},Salt:{$regex:salt,$options:'i'}}).skip(skipValue).limit(limitValue).sort({name:1})
+    const sortQuery = req.query.select === "hightolow"? {Rate:-1}: req.query.select === "lowtohigh"? {Rate:1}:{name:1}
+    const inStock = req.query.instock ==="true"? {$gt:0}:{$gte:0}
+    const medicines = await medicineModel.find({company:{$regex:brand,$options:'i'},Salt:{$regex:salt,$options:'i'},stock:inStock}).skip(skipValue).limit(limitValue).sort(sortQuery)
     const counts = medicines.length
     if(page>pages){
       return res.status(404).json({

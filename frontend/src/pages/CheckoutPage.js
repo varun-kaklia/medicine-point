@@ -113,7 +113,7 @@ const CheckoutPage = () => {
                 Name <span className="text-primary"></span>
               </label>
               <input type="text"     placeholder="Please Enter Name"                value={name}
-                    onChange={(e) => setName(e.target.value)} className="input-box" />
+                onChange={(e) => setName(e.target.value)} className="input-box" />
             </div>
             <div className="">
               <label className="text-gray-600 mb-2 block">

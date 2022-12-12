@@ -1,13 +1,13 @@
 import axios from "axios";
 
-export const getAllMedicines = (limit,page,brand,salt) => async (dispatch) => {
+export const getAllMedicines = (limit,page,brand,salt,select,inStock) => async (dispatch) => {
   dispatch({ type: "GET_MEDICINES_REQUEST" })
   console.log("limit",limit)
   console.log("page",page)
   console.log("brand",brand)
   console.log("salt",salt)
   try {
-    const res = await axios.get(`/api/medicines/getAllMedicine?limit=${limit !== undefined || ""? limit:24}&page=${page !== undefined || ""? page: 1}&brand=${brand !== undefined || ""? brand: ""}&salt=${salt !== undefined || ""? salt: ""}`);
+    const res = await axios.get(`/api/medicines/getAllMedicine?limit=${limit !== undefined || ""? limit:24}&page=${page !== undefined || ""? page: 1}&brand=${brand !== undefined || ""? brand: ""}&salt=${salt !== undefined || ""? salt: ""}&select=${select !== undefined || ""?select:""}&instock=${inStock !== false ?inStock:""}`);
     dispatch({ type: "GET_MEDICINES_SUCCESS", payload: res.data})
   } catch (err) {
     dispatch({ type: "GET_MEDICINES_FAIL", payload: err });

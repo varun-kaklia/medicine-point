@@ -5,7 +5,7 @@ const Pagination = ({ pages, setCurrentPage }) => {
     const [changePageNumber, setChangePageNumber] = useState(5)
     
     const pageNumbers = []
-    console.log("Pages",pages)
+    // console.log("Pages",pages)
     for (let i=1; i <= pages; i++){
         pageNumbers.push(i)
     }

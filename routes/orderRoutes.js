@@ -237,10 +237,10 @@ router.post("/getsellerorder", async (req, res) => {
 
 router.post("/getorderbyid", async (req, res) => {
   const id = req.body.id;
-  console.log("Order id", id)
+  // console.log("Order id", id)
   try {
     const order = await Order.findOne({ _id: id });
-    console.log("Order",order)
+    // console.log("Order",order)
     res.send(order);
   } catch (error) {
     res.json({ message: error });

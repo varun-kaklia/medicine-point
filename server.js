@@ -26,7 +26,7 @@ setInterval(importUpdatedMedicine,300000)
 setInterval(importUpdatedUser, 180000)
 setInterval(updateOrderStatus, 1800000)
 setInterval(udpateSalt, 21600000)
-setInterval(updatePoints,86400000)
+setInterval(updatePoints,21600000)
 
 //middlewares
 app.use(express.json());

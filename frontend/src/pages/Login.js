@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../actions/userAction";
 
 const Login = () => {
@@ -10,7 +10,9 @@ const Login = () => {
   
   
   const dispatch = useDispatch();
-  
+  const loginState = useSelector((state)=>state.loginUserReducer)
+  const {loading,error} = loginState
+
   useEffect(() => {
     if (localStorage.getItem("currentUser")) {
       window.location.href = "/";
@@ -97,6 +99,17 @@ const Login = () => {
               Forgot Password ?
             </Link> */}
           </div>
+          {
+            loading === false && error ?
+          <div className="flex items-center justify-center mt-6">
+            <div className="flex items-center">
+            <label className="text-secondary text-center">Email/ Name/ Password Wrong.!</label>
+            </div>
+          </div>
+          :
+          null
+          }
+
           <div className="mt-4">
             <button
             type="submit"

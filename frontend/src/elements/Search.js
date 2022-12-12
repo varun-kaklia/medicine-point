@@ -21,7 +21,7 @@ const Search = () => {
       : medicine.name.toLowerCase().includes(searchKeyword);
   })
 
-  const medicineLength = filterMedicine.length
+  // const medicineLength = filterMedicine.length
   
   // console.log("filter MEdicine",medicineLength)
   useLayoutEffect(()=>{

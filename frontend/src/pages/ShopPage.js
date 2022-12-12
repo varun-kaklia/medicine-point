@@ -16,7 +16,7 @@ const ShopPage = () => {
   const newBrand = location.state?.newBrand
   const [select, setSelect] = useState('default')
   const [currentPage, setCurrentPage] = useState(1)
-  const postPerPage = 21
+  const postPerPage = 24
   const [medicines,setMedicines] = useState('') 
   const [loading,setLoading] = useState("")
 
@@ -33,7 +33,7 @@ const ShopPage = () => {
   // const { medicines, loading } = medicineState;
   
   const getMedicinesData = async()=>{
-    const res = await axios.get(`/api/medicines/getAllMedicine?limit=${24}&page=${currentPage !== undefined || ""? currentPage: 1}&brand=${newBrand !== undefined || ""? newBrand: ""}&salt=${newSalt !== undefined || ""? newSalt: ""}`)
+    const res = await axios.get(`/api/medicines/getAllMedicine?limit=${24}&page=${currentPage !== undefined || ""? currentPage: 1}&brand=${newBrand !== undefined || ""? newBrand: ""}&salt=${newSalt !== undefined || ""? newSalt: ""}&select=${select !== undefined || ""?select:""}&instock=${inStock !== false ?inStock:""}`)
     console.log("Response",res)
     if(res){
       setMedicines(res.data)
@@ -43,7 +43,7 @@ const ShopPage = () => {
   useLayoutEffect(() => {
     getMedicinesData()
     // dispatch(getAllMedicines({limit:24,page:currentPage,brand:searchBrand?searchBrand:newBrand,salt:searchSalt?searchSalt:newSalt}));
-  }, [dispatch,brand,salt,currentPage,location]);
+  }, [dispatch,brand,salt,currentPage,location,select,inStock]);
 
   useEffect(() => {
     if (newBrand != null || undefined) {
@@ -61,29 +61,28 @@ const ShopPage = () => {
   },[location, newBrand, newSalt])
   
   //filer stock
-  const filterStock = medicines && medicines?.medicines?.filter((stock)=>{ if (inStock === true) {return stock.stock>0} else{return stock}})
+  // const filterStock = medicines && medicines?.medicines?.filter((stock)=>{ if (inStock === true) {return stock.stock>0} else{return stock}})
   
-  const filterBrand = filterStock && filterStock.filter(firm => {
-    if (brand.length > 0) {
-      return firm?.company?.includes(brand)
-    } else {
-      return firm
-    }
-  })
+  // const filterBrand = filterStock && filterStock.filter(firm => {
+  //   if (brand.length > 0) {
+  //     return firm?.company?.includes(brand)
+  //   } else {
+  //     return firm
+  //   }
+  // })
   
-  const filterSalt = filterBrand && filterBrand.filter(tar => { 
-    if (salt.length > 0) {
-      return tar?.Salt === (salt)
-    } else {
-      return tar
-    }
-  })
+  // const filterSalt = filterBrand && filterBrand.filter(tar => { 
+  //   if (salt.length > 0) {
+  //     return tar?.Salt === (salt)
+  //   } else {
+  //     return tar
+  //   }
+  // })
 
   const indexOfLastPost = currentPage * postPerPage;
   const indexOfFirstPost = indexOfLastPost - postPerPage;
-  const currentPosts = filterSalt && filterSalt.slice(indexOfFirstPost,indexOfLastPost)
+  const currentPosts = medicines && medicines?.medicines?.slice(indexOfFirstPost,indexOfLastPost)
 
-  console.log("Medicines",medicines.pages)
 
 
 
@@ -116,58 +115,32 @@ const ShopPage = () => {
               <option value="default">Default Sorting</option>
               <option value="lowtohigh">Price Low to High</option>
               <option value="hightolow">Price High to Low</option>
-              <option value="latest">Latest Products</option>
             </select>
             <div className="flex gap-2 ml-auto">
-              <div className="border border-primary w-10 h-9 flex items-center justify-center text-white bg-primary rounded cursor-pointer">
-                <FaTh />
-              </div>
-              <div className="border border-gray-300 w-10 h-9 flex items-center justify-center text-gray-600  rounded cursor-pointer">
-                <FaThList />
-              </div>
+            <div className="flex items-center ">
+                  <input
+                    type="checkbox"
+                    id="cat1"
+                    onClick={() => setInStock(!inStock)}
+                    className="text-primary focus:ring-0 rounded-sm cursor-pointer"
+                  />
+                  <label
+                    htmlFor="cat-1"
+                    className="text-gray-600 ml-3 cursor-pointer"
+                  >
+                    In Stock
+                  </label>
+                </div>
             </div>
           </div>
           {/* Products */}
-          {select ==="default"?
           <div className="grid lg:grid-cols-3 grid-cols-2 gap-6">
-            {currentPosts && currentPosts?.map((medicine) => (
-              <div key={medicine && medicine?.medicine?._id}>
-                <ShopPageProducts medicine={medicine && medicine} />
-              </div>
-            ))}</div>
-          :
-          select ==="lowtohigh"?
-          <div className="grid lg:grid-cols-3 grid-cols-2 gap-6">
-            {currentPosts?.sort((a,b)=>a.Rate-b.Rate).map((medicine) => (
-              <div key={medicine && medicine?.medicine?._id}>
+            {medicines && medicines?.medicines?.map((medicine) => (
+              <div key={medicine._id}>
                 <ShopPageProducts medicine={medicine && medicine} />
               </div>
             ))}
           </div>
-          :
-          select ==="hightolow"?
-          <div className="grid lg:grid-cols-3 grid-cols-2 gap-6">
-            {currentPosts?.sort((a,b)=>b.Rate-a.Rate).map((medicine) => (
-              <div key={medicine && medicine?.medicine?._id}>
-                <ShopPageProducts medicine={medicine && medicine} />
-              </div>
-            ))}
-          </div>:          
-          select ==="latest"?
-          <div className="grid lg:grid-cols-3 grid-cols-2 gap-6">
-            {currentPosts?.sort((a,b)=>a.updatedAt-b.updatedAt).map((medicine) => (
-              <div key={medicine && medicine?.medicine?._id}>
-                <ShopPageProducts medicine={medicine && medicine} />
-              </div>
-            ))}
-          </div>:
-          <div className="grid lg:grid-cols-3 grid-cols-2 gap-6">
-            {currentPosts?.map((medicine) => (
-              <div key={medicine && medicine?.medicine?._id}>
-                <ShopPageProducts medicine={medicine && medicine} />
-              </div>
-            ))}</div>
-          }
           <div className="mt-4">
             <Pagination pages={medicines && medicines?.pages} setCurrentPage={setCurrentPage} />
           </div>
