@@ -21,8 +21,8 @@ const LeftSideShopPanel = ({setInStock,inStock,brand,setBrand,setSalt,salt,searc
     <div>
       <div className="col-span-1 bg-white px-4 lg:pb-6 pb-4 shadow rounded overflow-hidden">
         <div className="divide-y divide-gray-200 space-y-5  items-center ">
-          <div className="pt-4">
             {/* Instock/outofstock */}
+          {/* <div className="pt-4">
             <h3 className="text-xl text-gray mb-3 uppercase font-medium">
               InStock/Outofstock
             </h3>
@@ -44,7 +44,7 @@ const LeftSideShopPanel = ({setInStock,inStock,brand,setBrand,setSalt,salt,searc
                 </div>
               </>
             </div>
-          </div>
+          </div> */}
 
           <div className="hidden lg:block">
             {/* Brand Category */}
@@ -88,7 +88,7 @@ const LeftSideShopPanel = ({setInStock,inStock,brand,setBrand,setSalt,salt,searc
               </div>
             </div>
             {/* Salt Category */}
-            {/* <div className="pt-4">
+            <div className="pt-4">
               <h3 className="text-xl text-gray mb-3 uppercase font-medium">
                 Salt
               </h3>
@@ -129,7 +129,7 @@ const LeftSideShopPanel = ({setInStock,inStock,brand,setBrand,setSalt,salt,searc
                   })}
                 </div>
               </div>
-            </div> */}
+            </div>
           </div>
 
           <div>
@@ -180,7 +180,7 @@ const LeftSideShopPanel = ({setInStock,inStock,brand,setBrand,setSalt,salt,searc
                 </div>
               </div>
               {/* Salt Category */}
-              {/* <div className="pt-4">
+              <div className="pt-4">
                 <h3 className="text-xl text-gray mb-3 uppercase font-medium">
                   Salt
                 </h3>
@@ -221,7 +221,7 @@ const LeftSideShopPanel = ({setInStock,inStock,brand,setBrand,setSalt,salt,searc
                     })}
                   </div>
                 </div>
-              </div> */}
+              </div>
             </details>
           </div>
         </div>

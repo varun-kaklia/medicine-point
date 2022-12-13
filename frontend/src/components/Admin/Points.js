@@ -2,26 +2,24 @@ import React, { useLayoutEffect, useState } from 'react'
 import {GrStatusGood} from 'react-icons/gr'
 import {MdDeleteOutline} from 'react-icons/md'
 import { useSelector, useDispatch } from 'react-redux'
-import { getAllMedicines, updateForProduct } from "../../actions/medicineAction";
+import { searchMedicine, updateForProduct,getPointsPageData } from "../../actions/medicineAction";
 
 const AdminPoints = () => {
   const dispatch = useDispatch();
   const [search, setSearch] = useState('')
   const [points, setPoints] = useState('1000')
-  const medicineState = useSelector((state) => state.getAllMedicineReducer);
+  const medicineState = useSelector((state) => state.getPointsPageDataReducer);
   const { medicines } = medicineState;
-  const sortMedicine = medicines && medicines?.sort((a, b) => a.name > b.name ? 1 : -1)
+  const productSearchState = useSelector((state) => state.getSearchMedicineReducer);
+  const { searchMedicines } = productSearchState;
 
   console.log("Points", points)
 
   useLayoutEffect(() => {
-    dispatch(getAllMedicines())
+    dispatch(getPointsPageData())
+    dispatch(searchMedicine())
   }, [dispatch]);
 
-
-  const adminPoints = medicines.filter((medicine) => {
-    return medicines && medicine.pointsPage === true
-  })
 
   return (
         <div>
@@ -44,8 +42,8 @@ const AdminPoints = () => {
       {/* window list */}
       {search === "" ? null : (
         <div className="absolute bg-gray-100 mt-1 w-max p-2 shadow-lg rounded-bl rounded-br max-h-36 overflow-y-auto ">
-          {sortMedicine &&
-            sortMedicine
+          {searchMedicines &&
+            searchMedicines
               .filter((medicine) => {
                 return search.toLowerCase() === ""
                   ? null
@@ -84,8 +82,8 @@ const AdminPoints = () => {
               </tr>
             </thead>
             <tbody>
-              {adminPoints &&
-                adminPoints.map((medicine, index) => (
+              {medicines &&
+                medicines.map((medicine, index) => (
                   <tr key={index} className="text-center">
                     <td className='flex justify-center'>
                       <img alt='Medicine Point- Medicine Wholeseller in Noida .!' src={!medicine.image ? "../images/1.png": "../images/upload/"+ medicine.image} width={125} height={125} className="rounded-sm"/>

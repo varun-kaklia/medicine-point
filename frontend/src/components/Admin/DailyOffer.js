@@ -3,28 +3,23 @@ import { useLocation } from 'react-router-dom'
 import {GrStatusGood} from 'react-icons/gr'
 import {MdDeleteOutline} from 'react-icons/md'
 import { useSelector, useDispatch } from 'react-redux'
-import { getAllMedicines, updateForDailyOffer,searchMedicine } from "../../actions/medicineAction";
+import { getDailyOfferPageData, updateForDailyOffer,searchMedicine } from "../../actions/medicineAction";
 
 const DailyOffer = () => {
   const dispatch = useDispatch();
   const location = useLocation()
   const [search, setSearch] = useState('')
   const [dailyRegularPrice, setDailyRegularPrice] = useState('1000')
-  const medicineState = useSelector((state) => state.getAllMedicineReducer);
-  const { medicines } = medicineState;
-  const sortMedicine = medicines && medicines?.medicines?.sort((a, b) => a.name > b.name ? 1 : -1)
+  const medicineState = useSelector((state) => state.getDailyOfferPageDataReducer);
+  const { medicines } = medicineState
   const productSearchState = useSelector((state) => state.getSearchMedicineReducer);
   const { searchMedicines } = productSearchState;
 
   useEffect(() => {
-    dispatch(getAllMedicines())
+    dispatch(getDailyOfferPageData())
     dispatch(searchMedicine())
   }, [dispatch,location]);
 
-
-  const dailyOffer = medicines && medicines?.medicines?.filter((medicine) => {
-    return medicines && medicine.dailyOfferPage === true
-  })
 
   return (
       <div>
@@ -84,8 +79,8 @@ const DailyOffer = () => {
               </tr>
             </thead>
             <tbody>
-              {dailyOffer &&
-                dailyOffer.map((medicine, index) => (
+              {medicines &&
+                medicines?.map((medicine, index) => (
                   <tr key={index} className="text-center">
                     <td className='flex justify-center'>
                       <img src={!medicine.image ? "../images/1.png": "../images/upload/"+ medicine.image} width={100} height={100} className="rounded-sm" alt='Medicine Point- Medicine Wholeseller in Noida..!'/>

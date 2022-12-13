@@ -53,6 +53,22 @@ router.get('/search',async(req,res)=>{
   }
 })
 
+router.get("/pointsPage",async(req,res)=>{
+  try {
+  const medicine = await medicineModel.find({pointsPage:true})
+  res.send(medicine)
+} catch (error) {
+  res.json({message:error})
+}})
+
+router.get("/dailyOfferPage",async(req,res)=>{
+  try {
+  const medicine = await medicineModel.find({dailyOfferPage:true})
+  res.send(medicine)
+} catch (error) {
+  res.json({message:error})
+}})
+
 //get all medicines || @get request
 router.get("/getAllMedicine", async (req, res) => {
   try {

@@ -26,6 +26,30 @@ export const getCompany = ()=>async(dispatch)=>{
   }
 }
 
+export const getDailyOfferPageData = ()=>async(dispatch)=>{
+  dispatch({type:"GET_DAILY_OFFER_PAGE_DATA_REQUEST"})
+  try {
+    const res = await axios('/api/medicines/dailyOfferPage');
+    dispatch({type:"GET_DAILY_OFFER_PAGE_DATA_SUCCESS",payload:res.data})
+    
+  } catch (error) {
+    dispatch({type:"GET_DAILY_OFFER_PAGE_DATA_FAIL",payload:error})
+    
+  }
+}
+
+export const getPointsPageData = ()=>async(dispatch)=>{
+  dispatch({type:"GET_POINTS_PAGE_DATA_REQUEST"})
+  try {
+    const res = await axios('/api/medicines/pointsPage');
+    dispatch({type:"GET_POINTS_PAGE_DATA_SUCCESS",payload:res.data})
+    
+  } catch (error) {
+    dispatch({type:"GET_POINTS_PAGE_DATA_FAIL",payload:error})
+    
+  }
+}
+
 export const getSalt = ()=>async(dispatch)=>{
   dispatch({type:"GET_SALT_REQUEST"})
   try {
@@ -135,7 +159,7 @@ export const updateForProduct = (medicineId, name, pageValue, points) => async (
 export const updateForDailyOffer = (medicineId, name, dailyOfferPage, dailyRegularPrice) => async (dispatch) => {
   try {
     await axios.post("/api/medicines/dailyOffer", { medicineId, name, dailyOfferPage, dailyRegularPrice});
-    window.alert(`${name} is updated on Points Page`);
+    window.alert(`${name} is updated on Daily Offer Page`);
     // window.location.reload()
     window.location.href = "/admin/dailyoffer";
     // console.log(res);

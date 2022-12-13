@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useLayoutEffect } from "react";
 import Breakcrumb from "../components/Breakcrumb";
-// import LeftSideShopPanel from "../components/LeftSideShopPanel";
+import LeftSideShopPanel from "../components/LeftSideShopPanel";
 import { FaTh, FaThList } from "react-icons/fa";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 // import { getAllMedicines } from "../actions/medicineAction";
 import ShopPageProducts from "./ShopPageProducts";
 import Pagination from "../elements/Pagination";
@@ -16,7 +16,6 @@ const ShopPage = () => {
   const newBrand = location.state?.newBrand
   const [select, setSelect] = useState('default')
   const [currentPage, setCurrentPage] = useState(1)
-  const postPerPage = 24
   const [medicines,setMedicines] = useState('') 
   const [loading,setLoading] = useState("")
 
@@ -42,7 +41,6 @@ const ShopPage = () => {
   }
   useLayoutEffect(() => {
     getMedicinesData()
-    // dispatch(getAllMedicines({limit:24,page:currentPage,brand:searchBrand?searchBrand:newBrand,salt:searchSalt?searchSalt:newSalt}));
   }, [dispatch,brand,salt,currentPage,location,select,inStock]);
 
   useEffect(() => {
@@ -59,32 +57,6 @@ const ShopPage = () => {
       setCurrentPage(medicines && medicines?.page)
     }
   },[location, newBrand, newSalt])
-  
-  //filer stock
-  // const filterStock = medicines && medicines?.medicines?.filter((stock)=>{ if (inStock === true) {return stock.stock>0} else{return stock}})
-  
-  // const filterBrand = filterStock && filterStock.filter(firm => {
-  //   if (brand.length > 0) {
-  //     return firm?.company?.includes(brand)
-  //   } else {
-  //     return firm
-  //   }
-  // })
-  
-  // const filterSalt = filterBrand && filterBrand.filter(tar => { 
-  //   if (salt.length > 0) {
-  //     return tar?.Salt === (salt)
-  //   } else {
-  //     return tar
-  //   }
-  // })
-
-  const indexOfLastPost = currentPage * postPerPage;
-  const indexOfFirstPost = indexOfLastPost - postPerPage;
-  const currentPosts = medicines && medicines?.medicines?.slice(indexOfFirstPost,indexOfLastPost)
-
-
-
 
   return (
     <div>

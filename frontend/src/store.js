@@ -9,7 +9,9 @@ import {
   getAllUsersReducer,
   getSearchMedicineReducer,
   getCompanyDataReducer,
-  getSaltDataReducer
+  getSaltDataReducer,
+  getDailyOfferPageDataReducer,
+  getPointsPageDataReducer
 } from "./reducer/medicineReducer";
 import {getSliderImageReducer} from './reducer/sliderReducer'
 import { loginSellerReducer, getAllSellerReducer} from './reducer/sellerReducer'
@@ -30,6 +32,8 @@ const currentSeller = localStorage.getItem("currentSeller") ? JSON.parse(localSt
 
 const rootReducer = combineReducers({
   getAllMedicineReducer: getAllMedicineReducer,
+  getPointsPageDataReducer:getPointsPageDataReducer,
+  getDailyOfferPageDataReducer:getDailyOfferPageDataReducer,
   getCompanyDataReducer:getCompanyDataReducer,
   getSaltDataReducer :getSaltDataReducer,
   getSearchMedicineReducer:getSearchMedicineReducer,

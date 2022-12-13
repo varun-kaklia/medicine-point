@@ -67,6 +67,52 @@ export const getCompanyDataReducer = (state = { companyData: [] }, action) => {
   }
 };
 
+export const getDailyOfferPageDataReducer = (state = { medicines: [] }, action) => {
+  switch (action.type) {
+    case "GET_DAILY_OFFER_PAGE_DATA_REQUEST":
+      return {
+        ...state,
+        loading: true,
+      };
+    case "GET_DAILY_OFFER_PAGE_DATA_SUCCESS":
+      return {
+        medicines: action.payload,
+        loading: false,
+      };
+    case "GET_DAILY_OFFER_PAGE_DATA_FAIL":
+      return {
+        error: action.payload,
+        loading: false,
+      };
+
+    default:
+      return state;
+  }
+};
+
+export const getPointsPageDataReducer = (state = { medicines: [] }, action) => {
+  switch (action.type) {
+    case "GET_POINTS_PAGE_DATA_REQUEST":
+      return {
+        ...state,
+        loading: true,
+      };
+    case "GET_POINTS_PAGE_DATA_SUCCESS":
+      return {
+        medicines: action.payload,
+        loading: false,
+      };
+    case "GET_POINTS_PAGE_DATA_FAIL":
+      return {
+        error: action.payload,
+        loading: false,
+      };
+
+    default:
+      return state;
+  }
+};
+
 export const getSaltDataReducer = (state = { saltData: [] }, action) => {
   switch (action.type) {
     case "GET_SALT_REQUEST":

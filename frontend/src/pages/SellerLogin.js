@@ -18,8 +18,8 @@ const SellerLogin = () => {
   const dispatch = useDispatch();
   
   useEffect(() => {
-    if (localStorage.getItem("currentSeller")) {
-      window.location.href = "/sellerlogin";
+    if (localStorage.getItem("currentSeller") ) {
+      window.location.href = "/";
     }
   }, []);
 

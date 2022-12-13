@@ -24,12 +24,12 @@ const SellerUserSelection = () => {
   const { users, loading } = userState;
 
   // console.log("User",users)
-  useEffect(()=>{
-    if(localStorage.getItem('party') !== null || undefined || ""){
-      navigate('/sellerOrderCreation')
-      setParty(JSON.parse(localStorage.getItem('party')))
-    }
-  },[location,navigate])
+  // useEffect(()=>{
+  //   if(localStorage.getItem('party') !== null || undefined || ""){
+  //     navigate('/sellerOrderCreation')
+  //     setParty(JSON.parse(localStorage.getItem('party')))
+  //   }
+  // },[location,navigate])
 
   useLayoutEffect(() => {
     dispatch(getAllUsers());
