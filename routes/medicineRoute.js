@@ -74,7 +74,7 @@ router.get("/getAllMedicine", async (req, res) => {
   try {
     // console.log("Requested Query",req.query)
     const page = parseInt(req.query.page) || 1;
-    const limitValue = parseInt(req.query.limit) || 48;
+    const limitValue = parseInt(req.query.limit) || "";
     const skipValue = (page-1) * limitValue;
     const total = await medicineModel.countDocuments();
     const pages = Math.ceil(total/limitValue)

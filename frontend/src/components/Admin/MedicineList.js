@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useLayoutEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link} from "react-router-dom";
 import { deleteMedicine, getAllMedicines } from "../../actions/medicineAction";
 
 const MedicineList = () => {
@@ -8,10 +8,16 @@ const MedicineList = () => {
   // const [medicine, setMedicine] = useState([]);
   const medicineState = useSelector((state) => state.getAllMedicineReducer);
   const { medicines, loading } = medicineState;
-  // console.log("medicineState", medicineState);
 
-  useEffect(() => {
-    dispatch(getAllMedicines());
+  const limit = medicines.total
+  // console.log("medicineState", medicines.total);
+
+  useLayoutEffect(() => {
+    if(limit){
+      dispatch(getAllMedicines(limit));
+    }else(
+      dispatch(getAllMedicines())
+    )
   }, [dispatch]);
   return (
     <div>

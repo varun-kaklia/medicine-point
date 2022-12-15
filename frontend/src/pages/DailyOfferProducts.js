@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { addToCart } from "../actions/cartAction";
 import Star from "../elements/Star";
@@ -7,10 +7,6 @@ import Star from "../elements/Star";
 const DailyOfferProducts = ({ medicine }) => {
   const [quantity, setQuantity] = useState(1);
   const dispatch = useDispatch();
-
-  const userState = useSelector((state) => state.loginUserReducer)
-  const {currentUser} = userState
-  console.log("Current User", currentUser)
 
   const addToCartHandler = () => {
       dispatch(addToCart(medicine, quantity))

@@ -89,20 +89,20 @@ const ShopPage = () => {
               <option value="hightolow">Price High to Low</option>
             </select>
             <div className="flex gap-2 ml-auto">
-            <div className="flex items-center ">
-                  <input
-                    type="checkbox"
-                    id="cat1"
-                    onClick={() => setInStock(!inStock)}
-                    className="text-primary focus:ring-0 rounded-sm cursor-pointer"
-                  />
-                  <label
-                    htmlFor="cat-1"
-                    className="text-gray-600 ml-3 cursor-pointer"
-                  >
-                    In Stock
-                  </label>
-                </div>
+            <div className="flex items-center border border-gray-200 py-2 px-4 rounded">
+              <input
+                type="checkbox"
+                id="cat1"
+                onClick={() => setInStock(!inStock)}
+                className="text-primary focus:ring-0 rounded-sm cursor-pointer"
+              />
+              <label
+                htmlFor="cat-1"
+                className="text-gray-600 ml-3 cursor-pointer"
+              >
+                In Stock
+              </label>
+            </div>
             </div>
           </div>
           {/* Products */}
