@@ -69,6 +69,16 @@ export const getAllUsers = () => async (dispatch) => {
   }
 };
 
+export const findUserBySeller = (searchUser) => async (dispatch) => {
+  dispatch({ type: "GET_USERSBYSELLER_REQUEST" });
+  try {
+    const res = await axios.post("/api/users/findUserBySeller",{searchUser});
+    dispatch({ type: "GET_USERSBYSELLER_SUCCESS", payload: res.data });
+  } catch (err) {
+    dispatch({ type: "GET_USERSBYSELLER_FAIL", payload: err });
+  }
+};
+
 export const deleteUser = (userid, name) => async (dispatch) => {
   try {
     const res = await axios.post("/api/users/deleteuser", {

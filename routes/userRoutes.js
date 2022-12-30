@@ -276,6 +276,16 @@ router.get("/getallusers", async (req, res) => {
   }
 });
 
+router.post('/findUserBySeller',async(req,res)=>{
+  try {
+    const searchUser = req.body.searchUser
+    const users = await User.find({name:{$regex:searchUser, $options:'i'}}).sort({name:"1"})
+    res.status(200).send(users)
+  } catch (error) {
+   res.status(404).json({message:error.stack}) 
+  }
+})
+
 router.post("/deleteuser", async (req, res) => {
   const userid = req.body.userid;
   try {

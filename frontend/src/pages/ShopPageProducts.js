@@ -14,6 +14,11 @@ const ShopPageProducts = ({ medicine }) => {
   return (
     <div>
       <div className="bg-white shadow rounded overflow-hidden group">
+        <Link to={`/products/${medicine && medicine?._id}`} state={{medicine:medicine}}>
+          <div className="relative">
+            <img src={medicine.image ? `/images/upload/${medicine.image}`: `/images/upload/1.png`} alt={`Medicine Point- ${medicine.name}`} className="w-full md:h-64 h-52" />
+          </div>
+        </Link>
         <div className="pt-4 pb-3 px-4">
           <Link to={`/products/${medicine && medicine._id}`} state={{medicine:medicine}}>
             <h4 className="uppercase h-fit font-medium text-xl mb-2 text-gray-800 hover:text-secondary transition">

@@ -16,7 +16,7 @@ import {
 import {getSliderImageReducer} from './reducer/sliderReducer'
 import { loginSellerReducer, getAllSellerReducer} from './reducer/sellerReducer'
 import { cartReducer } from "./reducer/cartReducer";
-import { registerUserReducer, loginUserReducer,updateUserReducer, getUserByIdReducer,updateUserByAdminReducer } from "./reducer/userReducer";
+import { registerUserReducer, loginUserReducer,updateUserReducer, getUserByIdReducer,updateUserByAdminReducer,findUserBySellerReducer } from "./reducer/userReducer";
 import { placeOrderReducer, allUserOrderReducer, placeSellerOrderReducer, matchOtpReducer , getOrderByIdReducer} from "./reducer/orderReducer";
 import { getUserOrderReducer, getSellerOrderReducer , updateOrderByIdReducer} from "./reducer/orderReducer";
 
@@ -38,6 +38,7 @@ const rootReducer = combineReducers({
   getSaltDataReducer :getSaltDataReducer,
   getSearchMedicineReducer:getSearchMedicineReducer,
   cartReducer: cartReducer,
+  findUserBySellerReducer:findUserBySellerReducer,
   registerUserReducer: registerUserReducer,
   loginUserReducer: loginUserReducer,
   placeOrderReducer: placeOrderReducer,
@@ -69,7 +70,8 @@ const initialState = {
   },
   loginSellerReducer: {
     currentSeller: currentSeller,
-  }
+  },
+
 };
 
 const middleware = [thunk];
@@ -77,7 +79,7 @@ const middleware = [thunk];
 const store = createStore(
   rootReducer,
   initialState,
-  composeWithDevTools(applyMiddleware(...middleware))
+  composeWithDevTools(applyMiddleware(...middleware)),
 );
 
 export default store;

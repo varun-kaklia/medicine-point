@@ -22,14 +22,8 @@ const PointsDisplayPageProducts = () => {
     const userState = useSelector((state) => state.loginUserReducer)
     const {currentUser} = userState
     
-  useEffect(() => {
-    if (medicine.image === null || undefined || "") {
-      setImage("/images/1.png")
-    } else {
-      setImage("/images/upload/"+ medicine.image)
-    }
-  },[medicine])
-  // const medicines = 
+
+  
   console.log('Params id:-',id)
     const addToCartHandler = () => {
     if(currentUser.points>medicine.points){
@@ -45,14 +39,13 @@ const PointsDisplayPageProducts = () => {
       <Breadcrumb id={`Shop >> ${medicine.name}`} />
       <div className="container md:grid grid-cols-2 gap-6">
         <div>
-          <img src={image} className="w-full"  alt="Medicine Point- Medicine Wholeseller in Noida..!" />
+          <img src={!medicine.image ? "/images/upload/1.png": `/images/upload/${medicine.image}`} className="w-full"  alt="Medicine Point- Medicine Wholeseller in Noida..!" />
           <div className="grid grid-cols-5 gap-4 mt-4">
             <img
-              src={!medicine.image ? "../images/1.png": "/images/upload/"+ medicine.image}
+              src={!medicine.image ? "/images/upload/1.png": `/images/upload/${medicine.image}`}
               // src={medicine?.name==="AZAX 500MG 20X3T"? "/images/azax500/1.jpg" : medicine?.name==="WALKER ZENETRA 1"? "/images/zenetra/1.jpg"  : image}
               className="w-full cursor-pointer border border-primary"
               alt="Medicine Point- Medicine Wholeseller in Noida..!"
-              onClick={(e)=>setImage(e.target.src)}
             />
             {/* <img src={medicine?.name === "AZAX 500MG 20X3T" ? "/images/azax500/2.jpg" : medicine?.name === "WALKER ZENETRA 1" ? "/images/zenetra/1.jpg" : image}
               onClick={(e) => setImage(e.target.src)}

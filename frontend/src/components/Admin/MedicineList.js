@@ -38,7 +38,7 @@ const MedicineList = () => {
                 medicines?.medicines?.map((medicine, index) => (
                   <tr key={index} className="text-center">
                     <td className=" hidden md:block">
-                      <img src={!medicine.image ? "/images/upload/1.png": `/images/upload/${medicine.image}`} width={175} height={175} alt="Medicine Point- Medicine wholeseller in Noida..!" />
+                      <img src={medicine.image ? `/images/upload/${medicine.image}`: `/images/upload/1.png`} width={175} height={175} alt="Medicine Point- Medicine wholeseller in Noida..!" />
                     </td>
                     <td>{medicine.name}</td>
                     <td>{medicine.company}</td>

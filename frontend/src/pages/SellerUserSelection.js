@@ -6,7 +6,7 @@ import { FaAddressCard, FaGift, FaCoins } from 'react-icons/fa'
 import {GrDeliver} from 'react-icons/gr'
 import { AiOutlineLogout } from 'react-icons/ai'
 import { logoutSeller } from '../actions/sellerAction'
-import {getAllUsers} from '../actions/userAction'
+import {findUserBySeller} from '../actions/userAction'
 import ClipLoader from 'react-spinners/ClipLoader'
 
 const SellerUserSelection = () => {
@@ -20,7 +20,7 @@ const SellerUserSelection = () => {
   const dispatch = useDispatch()
   const sellerState = useSelector((state) => state.loginSellerReducer)
   const { currentSeller } = sellerState
-  const userState = useSelector((state) => state.getAllUsersReducer);
+  const userState = useSelector((state) => state.findUserBySellerReducer);
   const { users, loading } = userState;
 
   // console.log("User",users)
@@ -32,8 +32,8 @@ const SellerUserSelection = () => {
   // },[location,navigate])
 
   useLayoutEffect(() => {
-    dispatch(getAllUsers());
-  }, [location, dispatch]);
+    dispatch(findUserBySeller(searchUser));
+  }, [dispatch, searchUser]);
   
   useLayoutEffect(()=>{
     if(currentSeller && currentSeller.type !== "S"){
@@ -101,16 +101,7 @@ const SellerUserSelection = () => {
               </div>
             </div>
           </div>
-          {
-            loading === true?
-            <div className='col-span-9 md:grid md:mt-0 mt-4 grid-cols-1 gap-4 md:justify-items-center text-center w-full'>
-            <ClipLoader
-            color='#113078'
-            size={50}
-            />
-            <h3>Wait Users List is Loading...</h3>
-            </div>
-            :
+
           <div className='col-span-9 md:grid md:mt-0 mt-4 grid-cols-1 gap-4'>
             <div className='shadow rounded bg-white pt-6 pb-4 px-4'>
               <div className='flex justify-between items-center mb-2'>
@@ -126,7 +117,7 @@ const SellerUserSelection = () => {
                         />
                     </div>
               <div className='py-4 shadow rounded px-4 mt-4 md:h-60 h-40 overflow-y-scroll' >
-                {users && users?.sort((a,b)=>a.name > b.name? 1 : -1).filter((searchThisUser) => {
+                {users && users?.filter((searchThisUser) => {
                   return (
                     searchUser === "" || null || undefined ? searchThisUser : searchThisUser && searchThisUser?.name.toLowerCase().includes(searchUser)
                     )
@@ -170,6 +161,14 @@ const SellerUserSelection = () => {
                         <p className='font-semibold  text-gray-700 text-base'>DlNo</p>
                         <p className='font-small  text-gray-700 text-base'>{party !== null || undefined || ""? party.DlNo : party?.DlNo}</p>
                     </div>
+                    <div className=' mt-2 flex justify-between'>          
+                        <p className='font-semibold  text-gray-700 text-base'>Address</p>
+                        <p className='font-small  text-gray-700 text-base'>{party !== null || undefined || ""? party.address : party?.address}</p>
+                    </div>
+                    <div className=' mt-2 flex justify-between'>          
+                        <p className='font-semibold  text-gray-700 text-base'>Points</p>
+                        <p className='font-small  text-gray-700 text-base'>{party !== null || undefined || ""? party.points : party?.points}</p>
+                    </div>
                 </div>
                   </div>
           <div className=' text-center mt-4' id="seller">
@@ -178,7 +177,7 @@ const SellerUserSelection = () => {
             </Link>
                   </div>
           </div>
-          }
+          
           </div>
       </div>
   )

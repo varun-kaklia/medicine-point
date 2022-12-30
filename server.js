@@ -25,7 +25,7 @@ const app = express();
 setInterval(importUpdatedMedicine,300000)
 setInterval(importUpdatedUser, 180000)
 setInterval(updateOrderStatus, 1800000)
-setInterval(udpateSalt, 7200000)
+setInterval(udpateSalt, 1800000)
 setInterval(updatePoints,7200000)
 
 //middlewares

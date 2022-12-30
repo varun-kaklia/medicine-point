@@ -13,20 +13,20 @@ const Search = () => {
   const [searchKeyword, setSearchKeyword] = useState("");
   // console.log("Search Keyword",searchKeyword)
   const productSearchState = useSelector((state) => state.getSearchMedicineReducer);
-  const { searchMedicines } = productSearchState;
+  const { searchMedicines, loading } = productSearchState;
 
-  const filterMedicine = searchMedicines && searchMedicines.filter((medicine) => {
-    return searchKeyword.toLowerCase() === ""
-      ? null
-      : medicine.name.toLowerCase().includes(searchKeyword);
-  })
+  // const filterMedicine = searchMedicines && searchMedicines.filter((medicine) => {
+  //   return searchKeyword.toLowerCase() === ""
+  //     ? null
+  //     : medicine.name.toLowerCase().includes(searchKeyword);
+  // })
 
   // const medicineLength = filterMedicine.length
   
   // console.log("filter MEdicine",medicineLength)
   useLayoutEffect(()=>{
-    dispatch(searchMedicine())
-  },[])
+    dispatch(searchMedicine(searchKeyword))
+  },[searchKeyword, dispatch])
 
   const searchHandle = (e) => {
     e.preventDefault()
@@ -58,10 +58,10 @@ const Search = () => {
       </div>
       <div>
       {/* medicine list */}
-      {searchKeyword === "" ? null : (
+      {searchKeyword === ""  ? null : (
         <div className="absolute bg-gray-100 mt-1 w-max p-2 shadow-lg rounded-bl rounded-br max-h-36 overflow-y-auto ">
-          {filterMedicine &&
-            filterMedicine
+          {searchMedicines &&
+            searchMedicines
               .map((medicine, index) => {
                 return (
                   <div className="p-2" key={index}>

@@ -6,7 +6,7 @@ import { FaAddressCard, FaGift, FaCoins } from 'react-icons/fa'
 import {GrDeliver} from 'react-icons/gr'
 import { AiOutlineLogout } from 'react-icons/ai'
 import { logoutSeller } from '../actions/sellerAction'
-import {getAllMedicines} from '../actions/medicineAction'
+import {searchMedicine} from '../actions/medicineAction'
 import { addToCart, deleteFromCart, flushFromCart } from '../actions/cartAction'
 import {placeSellerOrder} from '../actions/orderAction' 
 import ClipLoader from 'react-spinners/ClipLoader'
@@ -15,7 +15,7 @@ const SellerOrderCreation = () => {
   const [showModal, setShowModal] = useState(false)
   const [user,setUser] = useState('')
   const [remarks, setRemarks] = useState('Enter Remarks on Order')
-  const [searchMedicine, setSearchMedicine] = useState('')
+  const [searchInputMedicine, setSearchInputMedicine] = useState('')
   const medicineSearch = useRef(null)
   const [quantity, setQuantity] = useState(1)
   const [selectedMedicine, setSelectedMedicine] = useState('')
@@ -23,19 +23,11 @@ const SellerOrderCreation = () => {
   const dispatch = useDispatch()
   const sellerState = useSelector((state) => state.loginSellerReducer)
   const { currentSeller } = sellerState
-  const medicineState = useSelector((state) => state.getAllMedicineReducer)
-  const { loading,medicines } = medicineState
   const cartState = useSelector((state) => state.cartReducer);
   const cartItems = cartState.cartItems;
 
   const productSearchState = useSelector((state) => state.getSearchMedicineReducer);
-  const { searchMedicines } = productSearchState;
-
-  const filterMedicine = searchMedicines && searchMedicines.filter((searchThisMedicine) => {
-    return (
-      getMedicine === "" ? searchThisMedicine : searchThisMedicine && searchThisMedicine?.name.toLowerCase().includes(getMedicine)
-    )
-  })
+  const { searchMedicines, loading } = productSearchState;
 
   const newValue = cartItems.reduce((x, item) => x + item.price, 0);
   const subTotal = Math.trunc(newValue)
@@ -53,11 +45,14 @@ const SellerOrderCreation = () => {
     dispatch(addToCart(selectedMedicine, quantity));
     setQuantity(1)
     medicineSearch.current.value=""
-    setSearchMedicine('')
+    setGetMedicine('')
   }
 
+  useEffect(()=>{
+    dispatch(searchMedicine(getMedicine))
+  },[dispatch,getMedicine])
+
   useLayoutEffect(() => {
-    dispatch(getAllMedicines())
     setUser(JSON.parse(localStorage.getItem("party")))
   }, [dispatch])
 
@@ -222,32 +217,24 @@ const SellerOrderCreation = () => {
               </div>
             </div>
           </div>
-          {
-          loading === true?
-          <div className='col-span-9 md:grid md:mt-0 mt-4 grid-cols-1 gap-4 md:justify-items-center text-center w-full'>
-          <ClipLoader
-          color='#113078'
-          size={50}
-          />
-          <h3>Wait medicines List is Loading...</h3>
-          </div>
-          :
+
           <div className='col-span-9 md:grid md:mt-0 mt-10 grid-cols-1 gap-4'>
             <div className='shadow rounded bg-white pt-6 pb-4 px-4'>
               <div className='flex items-center mb-4 justify-center'>
                 <h3 className='font-medium text-gray-800 text-lg'>Seller Order Creation</h3>
               </div>
             </div>
+            <div className='justify-end flex py-2'><span className='px-2'>Total:</span><span className='px-2'>{subTotal}</span></div>
             <div className='md:grid mt-4 grid-cols-1 gap-4'>
               <div className='shadow rounded bg-white pt-6 pb-4 px-4'>
                 <div className=''>
                   <input type="text" className='rounded w-full' ref={medicineSearch} onChange={(e)=>setGetMedicine(e.target.value.toLowerCase())} placeholder='Enter Medicine Name' />
                 </div>
               <div className='py-2 shadow rounded px-2 mt-4 overflow-y-scroll'>
-              {getMedicine === "" || null ? null : (
+              {getMedicine === "" ? null : (
                   <div className="absolute bg-gray-100 mt-1 w-max p-2 shadow-lg rounded-bl rounded-br max-h-36 overflow-y-auto ">
-                    {filterMedicine &&
-                      filterMedicine
+                    {searchMedicines &&
+                      searchMedicines
                         .map((medicine, index) => {
                           return (
                             <div className="p-2" key={index}>
@@ -319,7 +306,7 @@ const SellerOrderCreation = () => {
                     </Link>
                   </div>
               </div>
-          }
+          
           </div>
       </div>
   )

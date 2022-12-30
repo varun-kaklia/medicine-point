@@ -56,6 +56,7 @@ const udpateSalt = async () => {
   }
 };
 
+// udpateSalt()
 // setInterval(importUpdatedMedicine,360000)
 module.exports = udpateSalt
 

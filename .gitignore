@@ -9,5 +9,6 @@ newOrderCheck.js
 updateImportData.js
 updateDataSeeder.js
 
+frontend/public/images
 # misc
 .env

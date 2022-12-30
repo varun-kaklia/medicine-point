@@ -43,10 +43,11 @@ router.get('/salt',async(req,res)=>{
   }
 })
 
-router.get('/search',async(req,res)=>{
+router.post('/search',async(req,res)=>{
   try {
-    const query = req.query.query
-    const searchMedicine = await medicineModel.find({name:{$regex:query,$options:"i"}}).sort({name:1})
+    console.log("Query", req.query.query)
+    const query = req.query.query || "";
+    const searchMedicine = await medicineModel.find({name:{$regex:query,$options:'i'}}).sort({name:1})
     res.send(searchMedicine)
   } catch (error) {
     res.json({message:error})

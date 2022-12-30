@@ -66,7 +66,7 @@ export const searchMedicine = (search) => async(dispatch)=>{
   dispatch({type:'GET_SEARCH_REQUEST'})
   try {
     console.log("Search iN Medicine Action",search)
-    const res = await axios.get(`/api/medicines/search?query=${search || ""}`)
+    const res = await axios.post(`/api/medicines/search?query=${search || ""}`)
     dispatch({type:'GET_SEARCH_SUCCESS',payload:res.data})
   } catch (error) {
     dispatch({type:'GET_SEARCH_FAIL',payload:error})

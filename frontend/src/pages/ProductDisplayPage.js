@@ -8,27 +8,18 @@ import {
 import {GoGitCompare} from 'react-icons/go'
 import { useDispatch } from "react-redux";
 import ProductContainer from "../components/ProductContainer";
-import { useParams, useLocation, useNavigate } from "react-router-dom";
+import {  useLocation, useNavigate } from "react-router-dom";
 import { addToCart } from "../actions/cartAction";
 
 const ProductDisplayPage = () => {
   const navigate = useNavigate()
   const location = useLocation()
   const [quantity, setQuantity] = useState(1);
-  const [image, setImage] = useState("")
   const dispatch = useDispatch();
   const { state } = useLocation()
   // console.log("State",state)
   const {medicine} = state
-  // console.log('Medicine', medicine)
-  const { id } = useParams()
-  useEffect(() => {
-    if (medicine && !medicine.image) {
-      setImage("/images/1.png")
-    } else {
-      setImage("/images/upload/"+ medicine.image)
-    }
-  }, [medicine])
+  console.log('Medicine', medicine)
 
   useEffect(() => {
     setQuantity(1)
@@ -47,14 +38,13 @@ const ProductDisplayPage = () => {
       <Breadcrumb id={`Shop >> ${medicine.name}`} />
       <div className="container md:grid grid-cols-2 gap-6">
         <div>
-          <img src={image} className="w-full" alt="Medicine Point- Medicine Wholeseller in Noida..!" />
+          <img src={medicine.image ? `/images/upload/${medicine.image}`: `/images/upload/1.png`} className="w-full" alt="Medicine Point- Medicine Wholeseller in Noida..!" />
           <div className="grid grid-cols-5 gap-4 mt-4">
             <img
-              src={!medicine.image ? "../images/1.png": "/images/upload/"+ medicine.image}
+              src={medicine.image ? `/images/upload/${medicine.image}`: `/images/upload/1.png`}
               // src={medicine?.name==="AZAX 500MG 20X3T"? "/images/azax500/1.jpg" : medicine?.name==="WALKER ZENETRA 1"? "/images/zenetra/1.jpg"  : image}
               className="w-full cursor-pointer border border-primary"
               alt="Medicine Point- Medicine Wholeseller in Noida..!"
-              onClick={(e)=>setImage(e.target.src)}
             />
           </div>
         </div>

@@ -1,10 +1,9 @@
-import React, { useState, useRef, useLayoutEffect} from 'react'
+import React, { useState, useRef, useLayoutEffect, useEffect} from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import {Link} from "react-router-dom"
 import Breakcrumb from '../components/Breakcrumb'
-import {getAllMedicines,searchMedicine} from '../actions/medicineAction'
+import {searchMedicine} from '../actions/medicineAction'
 import { addToCart, deleteFromCart } from '../actions/cartAction'
-import ClipLoader from 'react-spinners/ClipLoader'
 
 const CreateOrder = () => {
   const [showModal, setShowModal] = useState(false)
@@ -14,8 +13,6 @@ const CreateOrder = () => {
   const [quantity, setQuantity] = useState(1)
   const [selectedMedicine, setSelectedMedicine] = useState('')
   const dispatch = useDispatch()
-  const medicineState = useSelector((state) => state.getAllMedicineReducer)
-  const { loading, medicines } = medicineState
   const cartState = useSelector((state) => state.cartReducer);
   const cartItems = cartState.cartItems;
   const pointsPay = cartItems.reduce((x, item) => x + item.pointsPrice, 0);
@@ -29,21 +26,17 @@ const CreateOrder = () => {
     dispatch(addToCart(selectedMedicine, quantity));
     setQuantity(1)
     medicineSearch.current.value=""
-    getMedicine('')
+    setGetMedicine('')
   }
 
   const productSearchState = useSelector((state) => state.getSearchMedicineReducer);
-  const { searchMedicines } = productSearchState;
+  const { searchMedicines, loading } = productSearchState;
 
-  const filterMedicine = searchMedicines && searchMedicines.filter((searchThisMedicine) => {
-    return (
-      getMedicine === "" ? searchThisMedicine : searchThisMedicine && searchThisMedicine?.name.toLowerCase().includes(getMedicine)
-    )
-  })
+  useEffect(()=>{
+    dispatch(searchMedicine(getMedicine))
+  },[getMedicine, dispatch])
 
   useLayoutEffect(() => {
-    dispatch(getAllMedicines())
-    dispatch(searchMedicine(getMedicine))
     if(localStorage.getItem("currentSeller")!== null || undefined || ""){
       window.location.href="/sellerUserSelection"
     }
@@ -151,7 +144,7 @@ const CreateOrder = () => {
         ):null
       }
         <Breakcrumb id={"Order Creation"}/>
-        {
+        {/* {
             loading === true?
             <div className='col-span-9 md:grid md:mt-0 mt-4 grid-cols-1 gap-4 md:justify-items-center text-center w-full'>
             <ClipLoader
@@ -159,7 +152,7 @@ const CreateOrder = () => {
             size={50}
             />
             </div>
-            :
+            : */}
         <div className='container md:grid grid-cols-12 items-start pt-4 gap-6 pb-16'>
           <div className='col-span-8 md:grid md:mt-0 grid-cols-1 gap-4'>
             <div className='shadow rounded bg-white p-4'>
@@ -173,10 +166,10 @@ const CreateOrder = () => {
                   <input type="text" className='rounded w-full' ref={medicineSearch} onChange={(e)=>setGetMedicine(e.target.value.toLowerCase())} placeholder='Enter Medicine Name' />
                 </div>
               <div className='py-2 shadow rounded px-2 mt-4 overflow-y-scroll'>
-              {getMedicine === "" || null ? null : (
+              {getMedicine === "" ? null : (
                   <div className="absolute bg-gray-100 mt-1 w-max p-2 shadow-lg rounded-bl rounded-br max-h-36 overflow-y-auto ">
-                    {filterMedicine &&
-                      filterMedicine
+                    {searchMedicines &&
+                      searchMedicines
                         .map((medicine, index) => {
                           return (
                             <div className="p-2" key={index}>
@@ -287,7 +280,7 @@ const CreateOrder = () => {
                         </div>
                         </div>
           </div>
-        }
+        {/* } */}
       </div>
   )
 }
