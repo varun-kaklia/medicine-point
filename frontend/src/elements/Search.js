@@ -1,17 +1,13 @@
-import React, { useState, useRef, useLayoutEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { FaSearch } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import {  Link } from "react-router-dom";
-import {searchMedicine} from '../actions/medicineAction' 
-// import Microphone from "./Microphone";
-
+import {searchMedicine} from '../actions/medicineAction'
 const Search = () => {
   const thisSearch = useRef(null)
   const dispatch = useDispatch()
-  const [searchItemPage,setSearchItemPage] = useState(false)
   const [searchKeyword, setSearchKeyword] = useState("");
-  // console.log("Search Keyword",searchKeyword)
   const productSearchState = useSelector((state) => state.getSearchMedicineReducer);
   const { searchMedicines, loading } = productSearchState;
 
@@ -24,13 +20,12 @@ const Search = () => {
   // const medicineLength = filterMedicine.length
   
   // console.log("filter MEdicine",medicineLength)
-  useLayoutEffect(()=>{
+  useEffect(()=>{
     dispatch(searchMedicine(searchKeyword))
   },[searchKeyword, dispatch])
 
   const searchHandle = (e) => {
     e.preventDefault()
-    setSearchItemPage(true)
     setSearchKeyword("")
     thisSearch.current.value = ""
   }
@@ -62,7 +57,7 @@ const Search = () => {
         <div className="absolute bg-gray-100 mt-1 w-max p-2 shadow-lg rounded-bl rounded-br max-h-36 overflow-y-auto ">
           {searchMedicines &&
             searchMedicines
-              .map((medicine, index) => {
+              ?.map((medicine, index) => {
                 return (
                   <div className="p-2" key={index}>
                   <button onClick={(e) => searchHandle(e)}>
