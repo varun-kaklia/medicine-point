@@ -3,6 +3,8 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import Search from "../elements/Search";
 import PhoneNavbar from "../elements/phoneNavbar";
+import {FaBars} from 'react-icons/fa'
+import {RxCross1} from 'react-icons/rx'
 
 const Header = () => {
   const cartState = useSelector((state) => state.cartReducer);
@@ -11,32 +13,28 @@ const Header = () => {
   const sellerState = useSelector((state) => state.loginSellerReducer)
   const {currentSeller} = sellerState
   const [bar, setBar] = useState(false)
+  console.log('Current Bar', bar)
   return (
     <div>
       {/* Header */}
       <div className="py-1 shadow-sm bg-white">
-        <div className="md:container items-center md:justify-between flex w-full md:flex">
-          <div className="md:hidden">
-            {
-              bar && bar === true ?
-            <button onClick={()=>setBar(false)}  className="text-slate-700 px-2 ">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
+        <div className="md:container items-center md:justify-between flex w-full">
+          <div className="md:hidden block">
+            <div onClick={()=>setBar(!bar)} className="cursor-pointer p-2">
+              {
+                bar?
+                  <RxCross1 size={20}/>
+                  :
+                  <FaBars size={20}/>
+              }
+            </div>
+            {bar ?
+              <PhoneNavbar setBar={setBar} />                
               :
-            <button onClick={()=>setBar(true)}  className="text-slate-700 px-4 ">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-              </svg>
-            </button>
-            }
-            {bar === true ?
-              <PhoneNavbar setBar={setBar} bar={ bar} />                :
-                null
+              null
             }
           </div>
-
+          <div>
           <Link to="/">
             {/* Logo */}
             <img
@@ -45,6 +43,7 @@ const Header = () => {
               className="w-20"
             />
           </Link>
+          </div>
           <div>
           </div>
           {/* Search Bar */}

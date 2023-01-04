@@ -3,25 +3,22 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../actions/userAction";
 
-const PhoneNavbar = ({setBar, bar}) => {
+const PhoneNavbar = ({setBar}) => {
   const dispatch = useDispatch();
   const userState = useSelector((state) => state.loginUserReducer);
   const { currentUser } = userState;
     return (
-        <div className="w-[80%] py-4 top-0 absolute">
-            <div className="relative pt-10">
-            <div className="w-fit">
-                {/* <img src="images/2.png" /> */}
-                </div>
-            <div className="bg-gray-400 w-full rounded-r">
-            <ul className="px-4 pt-2">
-                <li className="py-2"><Link to="/" onClick={()=>setBar(false)} className="text-primary">Home</Link></li>
-                <li className="py-2"><Link to="/shop"  onClick={()=>setBar(false)}  className="text-primary">Shop</Link></li>
-                <li className="py-2"><Link to="/salt" onClick={()=>setBar(false)}  className="text-primary">Salt Wise</Link></li>
-                <li className="py-2"><Link to="/brand" onClick={()=>setBar(false)}  className="text-primary">Brand Wise</Link></li>
-                <li className="py-2"><Link to="/points" onClick={()=>setBar(false)}  className="text-primary">Points</Link></li>
-                <li className="py-2"><Link to="/offer" onClick={()=>setBar(false)}  className="text-primary">Daily Offer</Link></li>
-            </ul>
+        <div className="w-[80%] py-6">
+          <div className="pt-4 w-full absolute">
+            <div className="bg-primary w-full rounded-r">
+              <ul className="px-4 pt-2">
+                  <li className="py-2"><Link to="/" onClick={()=>setBar(false)} className="text-slate-200">Home</Link></li>
+                  <li className="py-2"><Link to="/shop"  onClick={()=>setBar(false)}  className="text-slate-200">Shop</Link></li>
+                  <li className="py-2"><Link to="/salt" onClick={()=>setBar(false)}  className="text-slate-200">Salt Wise</Link></li>
+                  <li className="py-2"><Link to="/brand" onClick={()=>setBar(false)}  className="text-slate-200">Brand Wise</Link></li>
+                  <li className="py-2"><Link to="/points" onClick={()=>setBar(false)}  className="text-slate-200">Points</Link></li>
+                  <li className="py-2"><Link to="/offer" onClick={()=>setBar(false)}  className="text-slate-200">Daily Offer</Link></li>
+              </ul>
               {currentUser ? (
               <div className="px-4 pb-2">
                 <div className="px-8 py-4 bg-secondary flex items-center cursor-pointer relative group">
@@ -66,8 +63,8 @@ const PhoneNavbar = ({setBar, bar}) => {
                 </Link>
               </div>
                 )}
-                </div>
-                </div>
+              </div>
+            </div>
         </div>
  )   
 }

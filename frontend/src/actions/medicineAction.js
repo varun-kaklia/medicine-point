@@ -65,7 +65,6 @@ export const getSalt = ()=>async(dispatch)=>{
 export const searchMedicine = (search) => async(dispatch)=>{
   dispatch({type:'GET_SEARCH_REQUEST'})
   try {
-    console.log("Search iN Medicine Action",search)
     const res = await axios.post(`/api/medicines/search?query=${search || ""}`)
     dispatch({type:'GET_SEARCH_SUCCESS',payload:res.data})
   } catch (error) {
@@ -76,9 +75,7 @@ export const searchMedicine = (search) => async(dispatch)=>{
 export const addMedicine = (medicine) => async (dispatch) => {
   dispatch({ type: "ADD_MEDICINES_REQUEST" });
   try {
-    const response = await axios.post("/api/medicines/addmedicine", {
-      medicine,
-    });
+    const response = await axios.post("/api/medicines/addmedicine", {medicine});
     dispatch({ type: "ADD_MEDICINES_SUCCESS", payload: response.data });
   } catch (err) {
     dispatch({ type: "ADD_MEDICINES_FAIL", payload: err });

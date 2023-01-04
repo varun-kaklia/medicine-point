@@ -25,10 +25,13 @@ const SellerOrderScreen = () => {
       return window.location.href = "/login";
     } 
   }, []);
+
   useEffect(() => {
-    dispatch(getSellerOrder());
+    const currentSeller = JSON.parse(localStorage.getItem('currentSeller'))
+    console.log("Current Seller", currentSeller)
+    dispatch(getSellerOrder(currentSeller.RowID));
     dispatch(getAllSeller());
-  }, [dispatch]);
+  }, [dispatch, currentSeller]);
   useLayoutEffect(()=>{
     if(currentSeller.type !== "S"){
       return window.location.href ="/deliverOrder"
@@ -100,7 +103,7 @@ const SellerOrderScreen = () => {
               {currentSeller && orders &&
                 orders.filter((orderFilter)=>{
                   return orderFilter?.sellerID?.includes(currentSeller.RowID)
-                }).sort((a,b)=>b.createdAt.localeCompare(a.createdAt)).map((order, index) => (
+                }).map((order, index) => (
                   <div key={index}>
                   <div className="flex justify-between gap-2">
                       <p className="text-gray-700 font-medium">{new Date(order.createdAt).toDateString()}</p>

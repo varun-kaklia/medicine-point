@@ -224,7 +224,8 @@ router.post("/getuserorder", async (req, res) => {
 
 router.post("/getsellerorder", async (req, res) => {
   try {
-    const orders = await Order.find({ orderBy:"Seller" })
+    const sellerID = req.body.sellerID
+    const orders = await Order.find({ orderBy:"Seller", sellerID:sellerID}).sort({"createdAt": -1}) 
     // console.log("Orders", orders)
     res.status(200).send(orders);
   } catch (error) {
