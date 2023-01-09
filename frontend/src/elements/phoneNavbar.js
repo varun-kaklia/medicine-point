@@ -53,11 +53,11 @@ const PhoneNavbar = ({setBar}) => {
                 </div>
               </div>
             ) : (
-              <div className="px-4 pb-2">
+              <div className="px-4 pb-4">
                 <Link
                   to="/login"
                   onClick={()=>setBar(false)} 
-                  className="text-primary hover:text-white transition"
+                  className="text-slate-200 py-2 hover:text-slate-400 transition"
                 >
                   Login/Register
                 </Link>

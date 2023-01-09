@@ -1,33 +1,26 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { FaSearch } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import {  Link } from "react-router-dom";
 import {searchMedicine} from '../actions/medicineAction'
+
 const Search = () => {
-  const thisSearch = useRef(null)
   const dispatch = useDispatch()
   const [searchKeyword, setSearchKeyword] = useState("");
   const productSearchState = useSelector((state) => state.getSearchMedicineReducer);
-  const { searchMedicines, loading } = productSearchState;
+  const { searchMedicines } = productSearchState;
 
-  // const filterMedicine = searchMedicines && searchMedicines.filter((medicine) => {
-  //   return searchKeyword.toLowerCase() === ""
-  //     ? null
-  //     : medicine.name.toLowerCase().includes(searchKeyword);
-  // })
 
-  // const medicineLength = filterMedicine.length
-  
-  // console.log("filter MEdicine",medicineLength)
   useEffect(()=>{
-    dispatch(searchMedicine(searchKeyword))
-  },[searchKeyword, dispatch])
+    if(searchKeyword.length>0){
+      dispatch(searchMedicine(searchKeyword))
+    }
+  },[searchKeyword])
 
   const searchHandle = (e) => {
     e.preventDefault()
     setSearchKeyword("")
-    thisSearch.current.value = ""
   }
 
   return (
@@ -40,7 +33,6 @@ const Search = () => {
         </span>
         <input
           type="text"
-          ref={thisSearch}
           className="w-full border-primary border border-r-0 pl-2 md:pl-12 py-3 pr-0 md:pr-3 rounded-l-md  focus:outline-none"
           placeholder={searchKeyword.length>0?searchKeyword:"Search Medicine"}
           onChange={(e) => setSearchKeyword(e.target.value.toLowerCase())}

@@ -106,7 +106,7 @@ const ShopPage = () => {
             </div>
           </div>
           {/* Products */}
-          <div className="grid lg:grid-cols-3 grid-cols-2 gap-6">
+          <div>
             {medicines && medicines?.medicines?.map((medicine) => (
               <div key={medicine._id}>
                 <ShopPageProducts medicine={medicine && medicine} />

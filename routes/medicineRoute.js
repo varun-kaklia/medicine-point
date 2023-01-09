@@ -47,8 +47,12 @@ router.post('/search',async(req,res)=>{
   try {
     // console.log("Query", req.query.query)
     const query = req.query.query || "";
-    const searchMedicine = await medicineModel.find({name:{$regex:"^"+query,$options:"i"}}).sort({name:1})
-    res.send(searchMedicine)
+    if(query.length>0){
+      const searchMedicine = await medicineModel.find({name:{$regex:"^"+query,$options:"i"}}).sort({name:1})
+      res.send(searchMedicine)
+    }else{
+      res.send("Please Enter Name of Medicine")
+    }
   } catch (error) {
     res.json({message:error})
   }

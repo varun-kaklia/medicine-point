@@ -60,13 +60,10 @@ export const getUserOrder = () => async (dispatch, getState) => {
   }
 };
 
-export const getSellerOrder = (sellerID) => async (dispatch) => {
-  dispatch({
-    type: "SELLER_ORDER_REQUEST",
-  });
+export const getSellerOrder = (sellerID, limit) => async (dispatch) => {
+  dispatch({type: "SELLER_ORDER_REQUEST"});
   try {
-    const response = await axios.post("/api/orders/getsellerorder",{sellerID});
-    // console.log(response);
+    const response = await axios.post("/api/orders/getsellerorder",{sellerID, limit});
     dispatch({ type: "SELLER_ORDER_SUCCESS", payload: response.data });
   } catch (error) {
     dispatch({ type: "SELLER_ORDER_FAIL", payload: error });

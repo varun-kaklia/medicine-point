@@ -11,10 +11,9 @@ import Breakcrumb from "../components/Breakcrumb";
 
 const SellerOrderScreen = () => {
   const [deliveryBy, setDeliveryBy] = useState('')
+  const [limit, setLimit] = useState('')
   const orderState = useSelector((state) => state.getSellerOrderReducer);
   const { orders } = orderState;
-  const sellerState = useSelector((state) => state.loginSellerReducer)
-  const {currentSeller} = sellerState
   const allSellerState = useSelector((state)=>state.getAllSellerReducer)
   const {sellers} = allSellerState
   const dispatch = useDispatch();
@@ -26,12 +25,12 @@ const SellerOrderScreen = () => {
     } 
   }, []);
 
+  const currentSeller = JSON.parse(localStorage.getItem('currentSeller'))
   useEffect(() => {
-    const currentSeller = JSON.parse(localStorage.getItem('currentSeller'))
-    console.log("Current Seller", currentSeller)
-    dispatch(getSellerOrder(currentSeller.RowID));
+    dispatch(getSellerOrder(currentSeller.RowID, limit));
     dispatch(getAllSeller());
-  }, [dispatch, currentSeller]);
+  }, [dispatch, limit]);
+
   useLayoutEffect(()=>{
     if(currentSeller.type !== "S"){
       return window.location.href ="/deliverOrder"
@@ -96,14 +95,15 @@ const SellerOrderScreen = () => {
             <div className='shadow rounded bg-white pt-6 pb-8 px-4'>
               <div className='flex justify-between items-center mb-4'>
                 <h3 className='font-medium text-gray-800 text-lg'>Order Information</h3>
-                <h3 className='font-medium text-gray-800 text-lg'>Order Total</h3>
+                <div>
+                <label  className='font-medium text-gray-800 text-lg mr-2'>Order No.</label>
+                <input type="number" className="rounded p-1 w-12 text-center" onChange={(e)=>setLimit(e.target.value)} />
+                </div>
                 {/* <a href="#" className='text-primary'>Edit</a> */}
               </div>
               <div className="divide-y-2">
               {currentSeller && orders &&
-                orders.filter((orderFilter)=>{
-                  return orderFilter?.sellerID?.includes(currentSeller.RowID)
-                }).map((order, index) => (
+                orders.map((order, index) => (
                   <div key={index}>
                   <div className="flex justify-between gap-2">
                       <p className="text-gray-700 font-medium">{new Date(order.createdAt).toDateString()}</p>
