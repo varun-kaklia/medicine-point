@@ -33,9 +33,6 @@ const Register = () => {
 
   const registerHandler = (e) => {
     e.preventDefault();
-    if (password !== confirmPassword) {
-      alert("Password do not Match");
-    } else {
       const user = {
         name,
         email1,
@@ -48,7 +45,6 @@ const Register = () => {
       };
       // console.log("User on Register Page-", user);
       dispatch(registerUser(user));
-    }
   };
 
   return (

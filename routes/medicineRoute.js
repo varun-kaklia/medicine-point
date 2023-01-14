@@ -45,7 +45,6 @@ router.get('/salt',async(req,res)=>{
 
 router.post('/search',async(req,res)=>{
   try {
-    // console.log("Query", req.query.query)
     const query = req.query.query || "";
     if(query.length>0){
       const searchMedicine = await medicineModel.find({name:{$regex:"^"+query,$options:"i"}}).sort({name:1})

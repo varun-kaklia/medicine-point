@@ -8,15 +8,12 @@ import { AiOutlineLogout } from 'react-icons/ai'
 import { logoutSeller } from '../actions/sellerAction'
 import {searchMedicine} from '../actions/medicineAction'
 import { addToCart, deleteFromCart, flushFromCart } from '../actions/cartAction'
-import {placeSellerOrder} from '../actions/orderAction' 
-import ClipLoader from 'react-spinners/ClipLoader'
+import {placeSellerOrder} from '../actions/orderAction'
 
 const SellerOrderCreation = () => {
   const [showModal, setShowModal] = useState(false)
   const [user,setUser] = useState('')
   const [remarks, setRemarks] = useState('Enter Remarks on Order')
-  const [searchInputMedicine, setSearchInputMedicine] = useState('')
-  const medicineSearch = useRef(null)
   const [quantity, setQuantity] = useState(1)
   const [selectedMedicine, setSelectedMedicine] = useState('')
   const [getMedicine, setGetMedicine] = useState('')
@@ -27,7 +24,8 @@ const SellerOrderCreation = () => {
   const cartItems = cartState.cartItems;
 
   const productSearchState = useSelector((state) => state.getSearchMedicineReducer);
-  const { searchMedicines, loading } = productSearchState;
+  const { searchMedicines } = productSearchState;
+  console.log("SEarch Medicine", searchMedicines)
 
   const newValue = cartItems.reduce((x, item) => x + item.price, 0);
   const subTotal = Math.trunc(newValue)
@@ -44,13 +42,13 @@ const SellerOrderCreation = () => {
     setShowModal(false)
     dispatch(addToCart(selectedMedicine, quantity));
     setQuantity(1)
-    medicineSearch.current.value=""
-    setGetMedicine('')
   }
 
   useEffect(()=>{
-    dispatch(searchMedicine(getMedicine))
-  },[dispatch,getMedicine])
+    if(getMedicine.length>0){
+      dispatch(searchMedicine(getMedicine))
+    }
+  },[getMedicine])
 
   useLayoutEffect(() => {
     setUser(JSON.parse(localStorage.getItem("party")))
@@ -155,7 +153,7 @@ const SellerOrderCreation = () => {
                     type="button"
                     onClick={(e) => handleSelectedMedicine(e)}
                   >
-                    Submit
+                    Add
                   </button>
                 </div>
               </div>
@@ -228,26 +226,85 @@ const SellerOrderCreation = () => {
             <div className='md:grid mt-4 grid-cols-1 gap-4'>
               <div className='shadow rounded bg-white pt-6 pb-4 px-4'>
                 <div className=''>
-                  <input type="text" className='rounded w-full' ref={medicineSearch} onChange={(e)=>setGetMedicine(e.target.value.toLowerCase())} placeholder='Enter Medicine Name' />
+                  <input type="text" className='rounded w-full' onChange={(e)=>setGetMedicine(e.target.value.toLowerCase())} placeholder='Enter Medicine Name' />
                 </div>
-              <div className='py-2 shadow rounded px-2 mt-4 overflow-y-scroll'>
-              {getMedicine === "" ? null : (
+              <div className='py-2 shadow rounded h-80 px-2 mt-4 overflow-y-scroll'>
+              {searchMedicines && searchMedicines?.map((medicine)=>(
+              <div className="py-2 my-4 shadow p-1" key={medicine._id} >
+                <div onClick={()=>{
+                            setSelectedMedicine(medicine)
+                            setShowModal(true)}}>
+                  <div className="flex justify-between">
+                  <div className="text-gray-700 font-semibold text-lg pr-2 w-64">{medicine.name}</div>
+                  {/* <Link to={`/products/${medicine && medicine?._id}`} state={{medicine:medicine}}>
+                  </Link> */}
+                  <div className="text-gray-700 font-semibold text-lg">Price: ₹{medicine.Rate}</div>
+                  </div>
+                  <div className="flex justify-between">
+                  <div className="text-gray-500 text-sm">{medicine.company}</div>
+                  <div className="text-gray-500 text-sm">MRP ₹{medicine.MRP}</div>
+                  </div>
+                  <div className="flex justify-between">
+                  <div className="text-gray-500 text-sm">Exp {medicine.exp?medicine.exp:"NA"}</div>
+                  <div className="text-gray-500 text-sm">{medicine.dailyOfferPage?"Offer Available":"No Offer"}</div>
+                  <div className={`text-sm ${medicine.stock>0? `text-green-500`:`text-red-600`}`}>Available Qty: {medicine.stock}</div>
+                  </div>
+                </div>
+                    {/* <div className="flex justify-between py-2 items-center">
+                    <div className="justify-between flex">
+                        <div className="text-md text-gray-800 uppercase mb-1 ">Quantity</div>
+                        <div className="flex h-6 ml-4  border border-gray-300 text-gray-600 divide-x divide-gray-300 w-max mb-0">
+                          <div
+                            className="h-6 w-6 flex text-xl items-center justify-center cursor-pointer select-none"
+                            onClick={() =>
+                              quantity !== 0 ? setQuantity(quantity - 1) : null
+                            }
+                          >
+                            -
+                          </div>
+                          <input
+                            className="h-6 w-6 flex text-base text-center  justify-center"
+                            placeholder={quantity}
+                            onChange={(e)=>setQuantity(e.target.value)}
+                          />
+
+                          <div
+                            className="h-6 w-6 flex text-xl items-center justify-center cursor-pointer select-none"
+                            onClick={() => setQuantity(quantity + 1)}
+                          >
+                            +
+                          </div>
+                        </div>
+                      </div>
+                      <div>
+                      <button
+                        onClick={() => addToCart()}
+                        className="block w-full py-2 text-center text-white bg-primary border border-primary rounded px-4 hover:bg-transparent hover:text-primary transition"
+                      >
+                        Add to Cart
+                      </button>
+                      </div>
+                    </div> */}
+
+              </div>
+              ))}
+              {/* {getMedicine === "" ? null : (
                   <div className="absolute bg-gray-100 mt-1 w-max p-2 shadow-lg rounded-bl rounded-br max-h-36 overflow-y-auto ">
                     {searchMedicines &&
-                      searchMedicines
-                        .map((medicine, index) => {
+                      searchMedicines?.map((medicine, index) => {
                           return (
                             <div className="p-2" key={index}>
                             <button  onClick={() =>{
                             setSelectedMedicine(medicine)
-                            setShowModal(true)}}>
+                            setShowModal(true)}
+                            }>
                               {medicine.name}
                             </button>
                             </div>
                           );
                         })}
                   </div>
-                )}
+                )} */}
                     </div>
                         <h3 className='mt-4 px-2 font-semibold text-lg'>Selected Items:</h3>
                          {cartItems && cartItems.map((item, index) => (

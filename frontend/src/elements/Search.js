@@ -1,22 +1,24 @@
 import React, { useState, useEffect } from "react";
 import { FaSearch } from "react-icons/fa";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
 import {  Link } from "react-router-dom";
-import {searchMedicine} from '../actions/medicineAction'
+import axios from "axios";
 
 const Search = () => {
-  const dispatch = useDispatch()
   const [searchKeyword, setSearchKeyword] = useState("");
-  const productSearchState = useSelector((state) => state.getSearchMedicineReducer);
-  const { searchMedicines } = productSearchState;
+  const [searchMedicines,setSearchMedicines] = useState('')
 
-
-  useEffect(()=>{
-    if(searchKeyword.length>0){
-      dispatch(searchMedicine(searchKeyword))
+  const getData = async()=>{
+    const {data} = await axios.post(`/api/medicines/search?query=${searchKeyword}`)
+    console.log("SEarch Data",data)
+    if(data.length>0){
+      setSearchMedicines(data)
     }
+  }
+  useEffect(()=>{
+    getData()
   },[searchKeyword])
+
+  console.log('Search Medicine', searchMedicines)
 
   const searchHandle = (e) => {
     e.preventDefault()

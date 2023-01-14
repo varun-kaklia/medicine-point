@@ -33,7 +33,6 @@ const ShopPage = () => {
   
   const getMedicinesData = async()=>{
     const res = await axios.get(`/api/medicines/getAllMedicine?limit=${24}&page=${currentPage !== undefined || ""? currentPage: 1}&brand=${newBrand !== undefined || ""? newBrand: ""}&salt=${newSalt !== undefined || ""? newSalt: ""}&select=${select !== undefined || ""?select:""}&instock=${inStock !== false ?inStock:""}`)
-    console.log("Response",res)
     if(res){
       setMedicines(res.data)
       setLoading(res.data)
