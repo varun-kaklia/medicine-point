@@ -15,7 +15,9 @@ const Search = () => {
     }
   }
   useEffect(()=>{
-    getData()
+    if(searchKeyword.length>0){
+      getData(searchKeyword)
+    }
   },[searchKeyword])
 
   console.log('Search Medicine', searchMedicines)
@@ -50,8 +52,7 @@ const Search = () => {
       {searchKeyword === ""  ? null : (
         <div className="absolute bg-gray-100 mt-1 w-max p-2 shadow-lg rounded-bl rounded-br max-h-36 overflow-y-auto ">
           {searchMedicines &&
-            searchMedicines
-              ?.map((medicine, index) => {
+            searchMedicines.map((medicine, index) => {
                 return (
                   <div className="p-2" key={index}>
                   <button onClick={(e) => searchHandle(e)}>

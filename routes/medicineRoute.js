@@ -57,6 +57,33 @@ router.post('/search',async(req,res)=>{
   }
 })
 
+router.post('/shopPageMedicine',async(req,res)=>{
+  try {
+    const query = req.query.query || "";
+    console.log("Request Query",req.query)
+    const page = parseInt(req.query.page) || 1;
+    const limitValue = parseInt(req.query.limit) || "";
+    const skipValue = (page-1) * limitValue;
+    const total = await medicineModel.countDocuments();
+    const pages = Math.ceil(total/limitValue)
+    const brand = req.query.brand || ""
+    const salt = req.query.salt || ""
+    const sortQuery = req.query.select === "hightolow"? {Rate:-1}: req.query.select === "lowtohigh"? {Rate:1}:{name:1}
+    const inStock = req.query.instock ==="true"? {$gt:0}:{$gte:0}
+    const searchMedicine = await medicineModel.find({name:{$regex:"^"+query,$options:"i"},company:{$regex:brand,$options:'i'},Salt:{$regex:salt,$options:'i'},stock:inStock}).skip(skipValue).limit(limitValue).sort(sortQuery)
+    const counts = searchMedicine.length
+    if(page>pages){
+      return res.status(404).json({
+        status:"fail",
+        message:"No Medicine Data Found..!"
+      })
+    }
+    res.status(200).send({searchMedicine,page,pages,counts,total});
+  } catch (error) {
+    res.json({message:error})
+  }
+})
+
 router.get("/pointsPage",async(req,res)=>{
   try {
   const medicine = await medicineModel.find({pointsPage:true})

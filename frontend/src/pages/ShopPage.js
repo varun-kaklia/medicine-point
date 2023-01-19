@@ -18,6 +18,7 @@ const ShopPage = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const [medicines,setMedicines] = useState('') 
   const [loading,setLoading] = useState("")
+  const [searchMedicine,setSearchMedicine] = useState('')
 
   
   //Left Side Panel States
@@ -28,19 +29,19 @@ const ShopPage = () => {
   const [searchSalt, setSearchSalt] = useState('')
   
   const dispatch = useDispatch();
-  // const medicineState = useSelector((state) => state.getAllMedicineReducer);
-  // const { medicines, loading } = medicineState;
   
   const getMedicinesData = async()=>{
-    const res = await axios.get(`/api/medicines/getAllMedicine?limit=${24}&page=${currentPage !== undefined || ""? currentPage: 1}&brand=${newBrand !== undefined || ""? newBrand: ""}&salt=${newSalt !== undefined || ""? newSalt: ""}&select=${select !== undefined || ""?select:""}&instock=${inStock !== false ?inStock:""}`)
-    if(res){
-      setMedicines(res.data)
-      setLoading(res.data)
+      const res = await axios.post(`/api/medicines/shopPageMedicine?query=${searchMedicine}&limit=${24}&page=${currentPage !== undefined || ""? currentPage: 1}&brand=${newBrand !== undefined || ""? newBrand: ""}&salt=${newSalt !== undefined || ""? newSalt: ""}&select=${select !== undefined || ""?select:""}&instock=${inStock !== false ?inStock:""}`)
+      if(res){
+        setMedicines(res.data)
+        console.log('Medicine in Shop Page', medicines)
+        setLoading(res.data)
+      }
     }
-  }
+
   useLayoutEffect(() => {
-    getMedicinesData()
-  }, [dispatch,brand,salt,currentPage,location,select,inStock]);
+      getMedicinesData()
+  }, [dispatch,brand,searchMedicine,salt,currentPage,location,select,inStock]);
 
   useEffect(() => {
     if (newBrand != null || undefined) {
@@ -81,6 +82,19 @@ const ShopPage = () => {
       </div>
       :
         <div className="col-span-3 lg:mt-0 mt-4">
+            <div className="flex items-center justify-center pb-2">
+              <input
+                type='text'
+                placeholder="Search Medicine in Shop Page"
+                className="border-r-0 rounded-l"
+                onChange={(e)=>setSearchMedicine(e.target.value.toLowerCase())}
+              />
+            <div className="bg-primary p-2 border-primary border rounded-r">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="white" className="w-6 h-6">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+            </svg>
+            </div>
+            </div>
           <div className="flex items-center mb-4">
             <select id="selectMedicine" value={select} onChange={(e)=>setSelect(e.target.value)}  className="w-44 text-gray-600 py-3 px-4 border-gray-300 shadow-sm rounded focus:ring-primary focus:border-primary">
               <option value="default">Default Sorting</option>
@@ -106,13 +120,15 @@ const ShopPage = () => {
           </div>
           {/* Products */}
           <div>
-            {medicines && medicines?.medicines?.map((medicine) => (
+            {
+              medicines && medicines?.searchMedicine?.map((medicine) => (
               <div key={medicine._id}>
                 <ShopPageProducts medicine={medicine && medicine} />
               </div>
-            ))}
+              ))
+            }
           </div>
-          <div className="mt-4">
+          <div className="mt-4 block w-full">
             <Pagination pages={medicines && medicines?.pages} setCurrentPage={setCurrentPage} />
           </div>
         </div>

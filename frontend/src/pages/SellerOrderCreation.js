@@ -37,12 +37,16 @@ const SellerOrderCreation = () => {
       window.location.href="/myaccount"
   }
 
-  const handleSelectedMedicine = (e) => {
-    e.preventDefault()
-    setShowModal(false)
-    dispatch(addToCart(selectedMedicine, quantity));
-    setQuantity(1)
-  }
+  // const handleSelectedMedicine = (e) => {
+  //   e.preventDefault()
+  //   setShowModal(false)
+  //   dispatch(addToCart(selectedMedicine, quantity));
+  //   setQuantity(1)
+  // }
+
+  const addToCartHandler = (medicine) => {
+    dispatch(addToCart(medicine, quantity));
+  };
 
   useEffect(()=>{
     if(getMedicine.length>0){
@@ -70,7 +74,7 @@ const SellerOrderCreation = () => {
   },[currentSeller])
   return (
     <div>
-      {
+      {/* {
         showModal ? (
           <div className="flex justify-center items-center overflow-x-hidden overflow-y-auto w-full fixed inset-0 z-50 outline-none focus:outline-none">
             <div className="relative w-auto my-6 mx-auto max-w-3xl">
@@ -160,7 +164,7 @@ const SellerOrderCreation = () => {
             </div>
           </div>
         ):null
-      }
+      } */}
         <Breakcrumb id={"Seller Order Creation"}/>
         <div className='container md:grid grid-cols-12 items-start pt-4 gap-6 pb-16'>
           <div className='col-span-3'>
@@ -231,9 +235,7 @@ const SellerOrderCreation = () => {
               <div className='py-2 shadow rounded h-80 px-2 mt-4 overflow-y-scroll'>
               {searchMedicines && searchMedicines?.map((medicine)=>(
               <div className="py-2 my-4 shadow p-1" key={medicine._id} >
-                <div onClick={()=>{
-                            setSelectedMedicine(medicine)
-                            setShowModal(true)}}>
+                <div>
                   <div className="flex justify-between">
                   <div className="text-gray-700 font-semibold text-lg pr-2 w-64">{medicine.name}</div>
                   {/* <Link to={`/products/${medicine && medicine?._id}`} state={{medicine:medicine}}>
@@ -250,7 +252,7 @@ const SellerOrderCreation = () => {
                   <div className={`text-sm ${medicine.stock>0? `text-green-500`:`text-red-600`}`}>Available Qty: {medicine.stock}</div>
                   </div>
                 </div>
-                    {/* <div className="flex justify-between py-2 items-center">
+                    <div className="flex justify-between py-2 items-center">
                     <div className="justify-between flex">
                         <div className="text-md text-gray-800 uppercase mb-1 ">Quantity</div>
                         <div className="flex h-6 ml-4  border border-gray-300 text-gray-600 divide-x divide-gray-300 w-max mb-0">
@@ -278,13 +280,13 @@ const SellerOrderCreation = () => {
                       </div>
                       <div>
                       <button
-                        onClick={() => addToCart()}
+                        onClick={() => addToCartHandler(medicine)}
                         className="block w-full py-2 text-center text-white bg-primary border border-primary rounded px-4 hover:bg-transparent hover:text-primary transition"
                       >
                         Add to Cart
                       </button>
                       </div>
-                    </div> */}
+                    </div>
 
               </div>
               ))}

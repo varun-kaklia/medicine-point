@@ -27,7 +27,7 @@ const Pagination = ({ pages, setCurrentPage }) => {
     }
 
   return (
-      <div className='flex p-2 w-fit border rounded border-primary'>
+      <div className='block p-2 w-fit rounded border-primary'>
           {changePageNumber !== 5 ?
               <button className="px-4 py-2 rounded border hover:border-primary bg-primary text-slate-100 hover:cursor-pointer hover:bg-transparent hover:text-primary"
 onClick={(e)=>handleMinus(e)}

@@ -17,8 +17,12 @@ const DailyOffer = () => {
 
   useEffect(() => {
     dispatch(getDailyOfferPageData())
-    dispatch(searchMedicine())
   }, [dispatch,location]);
+  useEffect(()=>{
+    if(search.length>0){
+      dispatch(searchMedicine(search))
+    }
+  },[dispatch,search])
 
 
   return (

@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 import {GrStatusGood} from 'react-icons/gr'
 import {MdDeleteOutline} from 'react-icons/md'
 import { useSelector, useDispatch } from 'react-redux'
@@ -17,9 +17,13 @@ const AdminPoints = () => {
 
   useLayoutEffect(() => {
     dispatch(getPointsPageData())
-    dispatch(searchMedicine())
   }, [dispatch]);
-
+  
+  useEffect(()=>{
+    if(search.length>0){
+      dispatch(searchMedicine(search))
+    }
+  },[search, dispatch])
 
   return (
         <div>
