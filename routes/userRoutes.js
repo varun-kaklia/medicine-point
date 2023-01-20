@@ -157,7 +157,7 @@ router.post('/updateUser',async (req,res)=>{
         res.status(200).send(currentUser);
       } else {
         res.status(400).json({
-          message: "Login Failed",
+          message: "Couldn't able to find details.",
         });
       }
     } catch (error) {
@@ -187,7 +187,7 @@ router.post('/updateUser',async (req,res)=>{
         res.status(200).send(currentUser);
       } else {
         res.status(400).json({
-          message: "Login Failed",
+          message: "Couldn't able to find details.",
         });
       }
     } catch (error) {

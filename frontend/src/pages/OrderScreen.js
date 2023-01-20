@@ -11,6 +11,7 @@ import Breakcrumb from "../components/Breakcrumb";
 const OrderScreen = () => {
   const orderState = useSelector((state) => state.getUserOrderReducer);
   const { orders } = orderState;
+  console.log("Order",orders)
   const userState = useSelector((state) => state.loginUserReducer);
   const { currentUser } = userState;
   const sellerState = useSelector((state) => state.loginSellerReducer)
@@ -130,10 +131,10 @@ const OrderScreen = () => {
                 <h3 className='font-medium text-gray-800 text-lg'>Order Total</h3>
                 {/* <a href="#" className='text-primary'>Edit</a> */}
               </div>
-              <div className="divide-y-2">
+              <div className="divide-y-2 py-2">
               {currentUser && orders &&
                 orders.map((order, index) => (
-                  <div key={index}>
+                  <div key={index} className="py-2">
                   <div className="flex justify-between gap-2">
                       <p className="text-gray-700 font-medium">{new Date(order.createdAt).toDateString()}</p>
                       <p className="text-gray-700 font-medium">Order No: {order && order.OrderNo }</p>
@@ -154,6 +155,16 @@ const OrderScreen = () => {
                   <div  className='gap-6 self-center'>
                     <div  className='text-gray-800'>{order.orderAmount}</div>
                   </div>
+                </div>
+                <div>
+                <div className="pr-2">
+                  <span className="pr-2 text-xl font-semibold">Use Wallet Money:</span>
+                  <span className="px-2">{order.useWallet===false?"No":order.useWallet===true?"Yes":"N.A."}</span>
+                </div>
+                </div>
+                <div>
+                  <p className="text-xl font-semibold">Order Remarks:</p>
+                  <span>{order.remarks}</span>
                 </div>
                   </div>
               ))}

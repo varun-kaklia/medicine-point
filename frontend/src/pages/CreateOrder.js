@@ -6,8 +6,8 @@ import {searchMedicine} from '../actions/medicineAction'
 import { addToCart, deleteFromCart } from '../actions/cartAction'
 
 const CreateOrder = () => {
+  const [remarks,setRemarks] = useState("No Remarks on Order")
   const [showModal, setShowModal] = useState(false)
-  const [remarks, setRemarks] = useState("")
   const [getMedicine, setGetMedicine] = useState('')
   const medicineSearch = useRef(null)
   const [quantity, setQuantity] = useState(1)

@@ -129,7 +129,7 @@ router.post("/placeorder", async(req, res) => {
   const orderQuantity = apiOrder.map((quantity) => { return `${quantity.quantity}` + `${quantity.length - 1 ? "," : ""}` })
 
   // console.log("Order Quantity", orderQuantity)
-  const orderApiResponse = await orderAPI(CustomerID, CustName, productCode, orderQuantity,SellerId)
+  const orderApiResponse = await orderAPI(CustomerID, CustName, productCode, orderQuantity,SellerId,remarks)
   
   const { Details } = orderApiResponse
   // console.log("Order Api", Details)
@@ -167,7 +167,7 @@ router.post("/placeorder", async(req, res) => {
       <p>Phone Number: ${currentUser.phone1}</p>
       <p>Drug License Number: ${currentUser.DlNo}</p>
       <p>User Wallet Balance: ${currentUser.wallet}</p>
-      <p>User Use Wallet: ${useWallet}</p>
+      <p>User Use Wallet: ${useWallet===true?"Yes":"No"}</p>
       <p>Wallet Money used by party: ${wallets}</p>
       <p>Points Ear by Party:${pendingPoints}</p>
       <p>Ordered Items-</p>

@@ -156,16 +156,20 @@ const CheckoutPage = () => {
               <p className="font-medium">{currentUser && currentUser?.name }'s Available Points:</p>
               <p>{currentUser && currentUser?.points}</p>
             </div>
+            <div className="flex justify-between   font-medium text-gray-800 py-3 uppercase ">
+              <p className="font-medium">{currentUser && currentUser?.name }'s Wallet Balance:</p>
+              <p>Rs. {currentUser && currentUser?.wallet}</p>
+            </div>
+            {currentUser && currentUser?.wallet>0 ?
             <div className="">
               <input
                 type="checkbox"
                 onChange={() => changeWalletUser()}
               /><span className="px-2">Redeem Wallet Money</span>
             </div>
-            <div className="flex justify-between   font-medium text-gray-800 py-3 uppercase ">
-              <p className="font-medium">{currentUser && currentUser?.name }'s Wallet Balance:</p>
-              <p>Rs. {currentUser && currentUser?.wallet}</p>
-            </div>
+            :
+            null 
+            }
             <div className="flex justify-between   font-medium text-gray-800 py-3 uppercase ">
               <p className="font-semibold">Total</p>
               <p>Rs. {useWallet === true? (subTotal - currentUser.wallet):subTotal}</p>
