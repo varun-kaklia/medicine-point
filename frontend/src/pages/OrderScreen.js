@@ -157,9 +157,20 @@ const OrderScreen = () => {
                   </div>
                 </div>
                 <div>
-                <div className="pr-2">
+                <div className="pr-2 md:flex md:justify-between">
+                  <div className="flex justify-between items-center">
                   <span className="pr-2 text-xl font-semibold">Use Wallet Money:</span>
                   <span className="px-2">{order.useWallet===false?"No":order.useWallet===true?"Yes":"N.A."}</span>
+                  </div>
+                  {
+                    order.useWallet===false?
+                    null
+                    :
+                  <div className="flex justify-between items-center">
+                  <span className="pr-2 text-xl font-semibold">Money Used:</span>
+                  <span className="px-2">{order?.wallets}</span>
+                  </div>
+                  }
                 </div>
                 </div>
                 <div>

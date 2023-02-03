@@ -15,7 +15,6 @@ const check = async (CustomerID,CustName,productCode, orderQuantity, SellerId, r
         }
     }
     )
-    console.log("Order Result", result)
     const data = await result.json()
     const orderApiResponse = zlib.inflateRawSync(new Buffer.from(data, 'base64')).toString('utf-8').replace("﻿", "")
     return JSON.parse(orderApiResponse)

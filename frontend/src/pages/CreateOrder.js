@@ -25,15 +25,15 @@ const CreateOrder = () => {
     setShowModal(false)
     dispatch(addToCart(selectedMedicine, quantity));
     setQuantity(1)
-    medicineSearch.current.value=""
-    setGetMedicine('')
   }
 
   const productSearchState = useSelector((state) => state.getSearchMedicineReducer);
   const { searchMedicines, loading } = productSearchState;
 
   useEffect(()=>{
-    dispatch(searchMedicine(getMedicine))
+    if(getMedicine.length>0){
+      dispatch(searchMedicine(getMedicine))
+    }
   },[getMedicine, dispatch])
 
   useLayoutEffect(() => {

@@ -25,7 +25,6 @@ export const placeOrder = (subTotal,newSubTotal,useWallet,wallets,remarks,pendin
 export const placeSellerOrder = (subTotal, remarks, user) => async (dispatch, getState) => {
   dispatch({ type: "PLACE_SELLERORDER_REQUEST" });
   const currentSeller = getState().loginSellerReducer.currentSeller;
-  // console.log("Current Seller", currentSeller)
   const cartItems = getState().cartReducer.cartItems;
   try {
     const res = await axios.post("/api/orders/placesellerorder", {

@@ -74,7 +74,7 @@ const CheckoutPage = () => {
       dispatch(placeOrder(subTotal,newSubTotal,useWallet,wallets, remarks,pendingPoints));
       dispatch(updateUser(point, wallet))
       dispatch(flushFromCart())
-  window.location.href="/ordercompleted"
+      window.location.href ="/ordercompleted"
       // dispatch(updateUserAction({currentUser}))
     } 
     if(points){
