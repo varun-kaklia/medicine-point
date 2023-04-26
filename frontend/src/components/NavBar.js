@@ -107,6 +107,12 @@ const NavBar = () => {
               >
                 Contact Us
               </Link>
+              <Link
+                to="/qrpayemnt"
+                className="text-gray-200 hover:text-white hidden md:block transition"
+              >
+                QR Payment
+              </Link>
             </div>
             {currentUser ? (
               <div className="ml-2">

@@ -43,6 +43,7 @@ import DailyOffer from "./components/Admin/DailyOffer";
 import EditOrder from "./components/Admin/EditOrder";
 import CreateOrder from "./pages/CreateOrder";
 import SlideImageEdit from "./components/Admin/SlideImageEdit";
+import Payment from "./pages/Payment";
 
 function App() {
   return (
@@ -92,6 +93,7 @@ function App() {
         <Route path="/sellerOrder" element={<SellerOrderScreen/>} />
         <Route path="/deliverOrder" element={<OrderDeliveryScreen/>} />
         <Route path="/createOrder" element={<CreateOrder/>}/>
+        <Route path="/qrpayemnt" element={<Payment/>}/> 
       </Routes>
       <Footer />
     </Router>
