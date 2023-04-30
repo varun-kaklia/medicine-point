@@ -8,9 +8,9 @@ const PhoneNavbar = ({setBar}) => {
   const userState = useSelector((state) => state.loginUserReducer);
   const { currentUser } = userState;
     return (
-        <div className="w-[80%] py-6">
+        <div className="w-[80%] py-6 z-20">
           <div className="pt-4 w-full absolute">
-            <div className="bg-primary w-full rounded-r">
+            <div className="bg-primary relative w-full rounded-r">
               <ul className="px-4 pt-2">
                   <li className="py-2"><Link to="/" onClick={()=>setBar(false)} className="text-slate-200">Home</Link></li>
                   <li className="py-2"><Link to="/shop"  onClick={()=>setBar(false)}  className="text-slate-200">Shop</Link></li>
@@ -18,6 +18,7 @@ const PhoneNavbar = ({setBar}) => {
                   <li className="py-2"><Link to="/brand" onClick={()=>setBar(false)}  className="text-slate-200">Brand Wise</Link></li>
                   <li className="py-2"><Link to="/points" onClick={()=>setBar(false)}  className="text-slate-200">Points</Link></li>
                   <li className="py-2"><Link to="/offer" onClick={()=>setBar(false)}  className="text-slate-200">Daily Offer</Link></li>
+                  <li className="py-2"><Link to="/qrpayemnt" onClick={()=>setBar(false)} className="text-slate-200">QR Payment</Link></li>
               </ul>
               {currentUser ? (
               <div className="px-4 pb-2">

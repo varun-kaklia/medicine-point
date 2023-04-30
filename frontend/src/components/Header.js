@@ -13,14 +13,15 @@ const Header = () => {
   const sellerState = useSelector((state) => state.loginSellerReducer)
   const {currentSeller} = sellerState
   const [bar, setBar] = useState(false)
-  console.log('Current Bar', bar)
+  // console.log('Current Bar', bar)
   return (
     <div>
       {/* Header */}
-      <div className="py-1 shadow-sm bg-white">
+      <div className="py-1 shadow-sm bg-white relative">
         <div className="md:container items-center md:justify-between flex w-full">
-          <div className="md:hidden block">
-            <div onClick={()=>setBar(!bar)} className="cursor-pointer p-2">
+          <div className="md:hidden block z-50">
+            <div onClick={()=>setBar(!bar)} className="cursor-pointer p-2 delay-75
+             duration-75">
               {
                 bar?
                   <RxCross1 size={20}/>

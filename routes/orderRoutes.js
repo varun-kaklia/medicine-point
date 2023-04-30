@@ -27,8 +27,8 @@ router.post("/placesellerorder", async (req, res) => {
     arrayItemsQuantity += orderedItemsQuantity[q] + "<br/>";
   }
 
-  const SellerId = currentSeller.RowID;
-  const CustomerID = user.rid;
+  const SellerId = parseInt(currentSeller.RowID);
+  const CustomerID = parseInt(user.rid);
   const CustName = user.name;
   const apiOrder = cartItems;
   const productCode = apiOrder.map((code) => {
@@ -45,71 +45,81 @@ router.post("/placesellerorder", async (req, res) => {
     orderQuantity,
     SellerId
   );
-  // console.log("order Api Response", orderApiResponse)
-  const { Details } = orderApiResponse;
-  const [orderDetails] = Details.OrderDetails;
-  const { OrderNo } = orderDetails;
-  // console.log("Order Details from Api in Order Routes", OrderNo)
-  const newOrder = new Order({
-    name: user.name,
-    email: user.email1,
-    userid: user._id,
-    remarks: remarks,
-    CustomerID: user.rid,
-    orderItems: cartItems,
-    orderAmount: subTotal,
-    OrderNo: OrderNo,
-    sellerID: SellerId,
-    orderBy: "Seller",
-  });
-
-  try {
-    const mail = {
-      from: process.env.GMAIL_USER,
-      to: process.env.SIR_GMAIL,
-      subject: "New Order",
-      html: `<h1>New Order Email</h1>
-      <p>Name: ${user.name}</p>
-      <p>Email: ${user.email1}</p>
-      <p>Address: ${user.address}</p>
-      <p>Phone Number: ${user.phone1}</p>
-      <p>Drug License Number: ${user.DlNo}</p>
-      <p>Order By: Seller</p>
-      <p>Seller Name:${currentSeller.name}</p>
-      <p>Ordered Items-</p>
-      <table>
-      <tr>
-      <th>Medicine Name</th>
-      <th>Quantity</th>
-      </tr>
-      <tr>
-      <td>${arrayItemsName}</td>
-      <td>${arrayItemsQuantity}</td>
-      </tr>
-      </table>
-      <p>Order Remarks:</p>
-      <p>${remarks}</p>
-      <p>SubTotal Of Products: ${subTotal}</p>
-      <p>You got New Order On Website</p>
-      `,
-    };
-    contactEmail.sendMail(mail, (error) => {
-      if (error) {
-        res.json({ status: "Error" });
-      } else {
-        res.json({ status: "Email Sent" });
-      }
-    });
-    newOrder.save();
-    res.status(200).json({
-      success: true,
-      message: "Order Succesful",
-    });
-  } catch (error) {
-    res.status(400).json({
-      message: error,
+  console.log("order Api Response", orderApiResponse)
+  if(orderApiResponse&&orderApiResponse?.status==="Failure"){
+    res.status(500).json({
+      message: orderApiResponse?.Message,
     });
   }
+  else{
+    const { Details } = orderApiResponse;
+    const [orderDetails] = Details&&Details?.OrderDetails;
+    const { OrderNo } = orderDetails;
+    // console.log("Order Details from Api in Order Routes", OrderNo)
+    const newOrder = new Order({
+      name: user.name,
+      email: user.email1,
+      userid: user._id,
+      remarks: remarks,
+      CustomerID: user.rid,
+      orderItems: cartItems,
+      orderAmount: subTotal,
+      OrderNo: OrderNo,
+      sellerID: SellerId,
+      orderBy: "Seller",
+    });
+    try {
+      const mail = {
+        from: process.env.GMAIL_USER,
+        to: process.env.SIR_GMAIL,
+        subject: "New Order",
+        html: `<h1>New Order Email</h1>
+        <p>Name: ${user.name}</p>
+        <p>Email: ${user.email1}</p>
+        <p>Address: ${user.address}</p>
+        <p>Phone Number: ${user.phone1}</p>
+        <p>Drug License Number: ${user.DlNo}</p>
+        <p>Order By: Seller</p>
+        <p>Seller Name:${currentSeller.name}</p>
+        <p>Ordered Items-</p>
+        <table>
+        <tr>
+        <th>Medicine Name</th>
+        <th>Quantity</th>
+        </tr>
+        <tr>
+        <td>${arrayItemsName}</td>
+        <td>${arrayItemsQuantity}</td>
+        </tr>
+        </table>
+        <p>Order Remarks:</p>
+        <p>${remarks}</p>
+        <p>SubTotal Of Products: ${subTotal}</p>
+        <p>You got New Order On Website</p>
+        `,
+      };
+      contactEmail.sendMail(mail, (error) => {
+        if (error) {
+          res.json({ status: "Error" });
+        } else {
+          res.json({ status: "Email Sent" });
+        }
+      });
+      newOrder.save();
+      res.status(200).json({
+        success: true,
+        message: "Order Succesful",
+      });
+    } 
+    catch (error) {
+      res.status(400).json({
+        message: error,
+      });
+    }
+
+  }
+
+
 });
 
 router.post("/placeorder", async (req, res) => {
